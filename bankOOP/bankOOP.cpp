@@ -11,8 +11,28 @@
 
 int main()
 {
-	// testy bazy danych
-	Database database;
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	return 0;
+	
+}
+
+// testy bazy danych
+	/*Database database;*/
 	/*database.select_all_Accounts_from_database();*/
 	/*database.select_user_data(5);
 	std::cout << "----------------------------" << std::endl;*/
@@ -24,18 +44,17 @@ int main()
 	account->display_account();
 	std::cout << "\n----------------------------" << std::endl;*/
 
-	std::vector<User*> users;
-	std::vector<Account*> accounts;
+
 
 	// testy dla User
-	User* user;
-	user = database.get_customer_data_by_id(1);
+	/*User* user;*/
+	/*user = database.get_customer_data_by_id(1);
 	users.push_back(user);
 	user = database.get_customer_data_by_id(2);
-	users.push_back(user);
+	users.push_back(user);*/
 
-	users[0]->show_menu();
-	users[1]->show_menu();
+	/*users[0]->show_menu();
+	users[1]->show_menu();*/
 
 	/*std::cout << "---------------------------------------" << std::endl;
 	user = new Employee(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
@@ -43,8 +62,3 @@ int main()
 	std::cout << "---------------------------------------" << std::endl;
 	user = new Admin(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
 	user->show_menu();*/
-
-	return 0;
-	
-}
-
