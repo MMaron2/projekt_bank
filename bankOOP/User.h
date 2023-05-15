@@ -11,9 +11,10 @@ protected:
 	std::string email;
 	std::string password;
 	int phone_number;
+	int is_active;
 
 public:
-	User(int, std::string, std::string, std::string, std::string, int);
+	User(int, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() = 0;
 	
 };

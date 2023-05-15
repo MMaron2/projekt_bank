@@ -4,7 +4,7 @@
 class Admin :public Employee
 {
 public:
-	Admin(bool, bool, int, std::string, std::string, std::string, std::string, int);
+	Admin(bool, bool, int, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() override;
 };
 
