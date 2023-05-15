@@ -151,14 +151,10 @@ public:
             delete con;
 
             // tutaj bedzie utworzenie obiektu customer i zwrocenie go
-            User *user = new Customer(0,userid,firstname,lastname,email,password,phone_number, 0);
+            User *user = new Customer(userid,firstname,lastname,email,password,phone_number, 0);
             return user;
         }
 
     }
-
-    
-
-    
 };
 

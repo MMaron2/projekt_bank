@@ -24,13 +24,19 @@ int main()
 	account->display_account();
 	std::cout << "\n----------------------------" << std::endl;*/
 
-
-
+	std::vector<User*> users;
+	std::vector<Account*> accounts;
 
 	// testy dla User
 	User* user;
 	user = database.get_customer_data_by_id(1);
-	user->show_menu();
+	users.push_back(user);
+	user = database.get_customer_data_by_id(2);
+	users.push_back(user);
+
+	users[0]->show_menu();
+	users[1]->show_menu();
+
 	/*std::cout << "---------------------------------------" << std::endl;
 	user = new Employee(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
 	user->show_menu();
