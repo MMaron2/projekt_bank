@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿#include <stdio.h>
+#include <iostream>
 #include "User.h"
 #include "Employee.h"
 #include "Customer.h"
@@ -11,7 +12,7 @@
 int main()
 {
 	// testy bazy danych
-	/*Database database;*/
+	Database database;
 	/*database.select_all_Accounts_from_database();*/
 	/*database.select_user_data(5);
 	std::cout << "----------------------------" << std::endl;*/
@@ -27,16 +28,15 @@ int main()
 
 
 	// testy dla User
-	User* user = new Customer(1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
-	/*user = database.get_customer_data_by_id(1);
-	user->show_menu();*/
+	User* user;
+	user = database.get_customer_data_by_id(1);
 	user->show_menu();
-	std::cout << "---------------------------------------" << std::endl;
+	/*std::cout << "---------------------------------------" << std::endl;
 	user = new Employee(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
 	user->show_menu();
 	std::cout << "---------------------------------------" << std::endl;
 	user = new Admin(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
-	user->show_menu();
+	user->show_menu();*/
 
 	return 0;
 	

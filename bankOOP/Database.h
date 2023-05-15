@@ -122,40 +122,40 @@ public:
     }
 
 
-    //User* get_customer_data_by_id(int user_id)
-    //{
-    //    connect_database();
-    //    int userid;
-    //    std::string firstname;
-    //    std::string lastname;
-    //    std::string email;
-    //    std::string password;
-    //    int phone_number;
+    User* get_customer_data_by_id(int user_id)
+    {
+        connect_database();
+        int userid;
+        std::string firstname;
+        std::string lastname;
+        std::string email;
+        std::string password;
+        int phone_number;
 
 
-    //    std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-    //    con->setSchema("users");
-    //    stmt = con->createStatement();
-    //    res = stmt->executeQuery(query);
-    //    while (res->next())
-    //    {
-    //        userid = res->getInt(1);
-    //        firstname = res->getString(2); 
-    //        lastname = res->getString(3);
-    //        email = res->getString(4);
-    //        password = res->getString(5);
-    //        phone_number = res->getInt(6);
+        std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("users");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
+        while (res->next())
+        {
+            userid = res->getInt(1);
+            firstname = res->getString(2); 
+            lastname = res->getString(3);
+            email = res->getString(4);
+            password = res->getString(5);
+            phone_number = res->getInt(6);
 
-    //        delete res;
-    //        delete stmt;
-    //        delete con;
+            delete res;
+            delete stmt;
+            delete con;
 
-    //        // tutaj bedzie utworzenie obiektu customer i zwrocenie go
-    //        User *user = new Customer(0,userid,firstname,lastname,email,password,phone_number, 0);
-    //        return user;
-    //    }
+            // tutaj bedzie utworzenie obiektu customer i zwrocenie go
+            User *user = new Customer(0,userid,firstname,lastname,email,password,phone_number, 0);
+            return user;
+        }
 
-    //}
+    }
 
     
 

@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "Database.h"
 
 class User
 {
@@ -9,9 +8,9 @@ protected:
 	std::string first_name;
 	std::string last_name;
 	std::string email;
-	std::string password;
+    std::string password;
 	int phone_number;
-	int is_active = 0;
+	int is_active;
 
 public:
 	User(int, std::string, std::string, std::string, std::string, int, int);
