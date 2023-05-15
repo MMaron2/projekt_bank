@@ -11,7 +11,7 @@ protected:
 	std::string email;
 	std::string password;
 	int phone_number;
-	int is_active;
+	int is_active = 0;
 
 public:
 	User(int, std::string, std::string, std::string, std::string, int, int);
