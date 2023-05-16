@@ -1,51 +1,114 @@
 ﻿#include <stdio.h>
+#include <cstdlib>
 #include <iostream>
 #include "User.h"
 #include "Employee.h"
 #include "Customer.h"
 #include "Admin.h"
-#include "Database.h";
-#include "Account.h";
+#include "Database.h"
+#include "Account.h"
 #include "NormalAccount.h"
 #include "SavingAccount.h"
 
+void Menu(Database *database);
+// pozniej mozna przemyslec czy nie schowac tych metod register i login do klasy user/customer zeby mniejszy syf byl
+void Login(Database *database);
+void Register();
+
+
 int main()
 {
+	Database *database = new Database();
 
-
-
+	Menu(database);
 	return 0;
 	
 }
 
-// testy bazy danych
-	/*Database database;*/
-	/*database.select_all_Accounts_from_database();*/
-	/*database.select_user_data(5);
-	std::cout << "----------------------------" << std::endl;*/
-	// testy dla Account
-	/*Account* account = new NormalAccount(123.3,0);
-	account->display_account();
-	std::cout << "\n----------------------------" << std::endl;
-	account = new SavingAccount(144.5, 1);
-	account->display_account();
-	std::cout << "\n----------------------------" << std::endl;*/
+void Menu(Database *database)
+{
+	int choice;
+	std::cout << "Wybierz co chcesz zrobic 0 logowanie 1 rejestracja";
+	std::cin >> choice;
 
+	switch (choice)
+	{
+	case 0:
+		Login(database);
+		break;
+	case 1:
+		Register();
+		break;
+	}
+}
 
+void Login(Database *database)
+{
+	// logujemy sie przez userID
+	int user_ID;
+	std::string password;
 
-	// testy dla User
-	/*User* user;*/
-	/*user = database.get_customer_data_by_id(1);
-	users.push_back(user);
-	user = database.get_customer_data_by_id(2);
-	users.push_back(user);*/
+	std::cout << "Podaj login";
+	std::cin >> user_ID;
 
-	/*users[0]->show_menu();
-	users[1]->show_menu();*/
+	std::cout << "Podaj haslo";
+	std::cin >> password;
 
-	/*std::cout << "---------------------------------------" << std::endl;
-	user = new Employee(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
-	user->show_menu();
-	std::cout << "---------------------------------------" << std::endl;
-	user = new Admin(1, 1, 1, "hyla", "hyla", "hyla", "hyla", 1, 1);
-	user->show_menu();*/
+	//sprawdzanie typu uzytkowania
+	int is_customer = database->check_customer(user_ID);
+	if (is_customer == 0)
+	{
+		User *customer = database->get_customer_data_by_id(user_ID);
+		customer->set_Active(customer);
+		customer->show_menu();
+		
+	}
+	else
+	{
+
+		int is_employee = database->check_employe(user_ID);
+		if (is_employee == 0)
+		{
+			//logowanie do pracowniczemu menu
+			std::cout << "zalogowano admin";
+		}
+		else
+		{
+			//zle dane logowania
+			std::cout << "niepoprawne dane";
+		}
+	}
+}
+
+void Register()
+{
+	int phonenumber;
+	std::string firstname, lastname, password, email, addres;
+
+	std::cout << "Podaj Imie";
+	std::cin >> firstname;
+
+	std::cout << "Podaj Naziwsko";
+	std::cin >> lastname;
+
+	std::cout << "Podaj Adres";
+	std::cin >> addres;
+
+	std::cout << "Podaj numer telefonu";
+	std::cin >> phonenumber;
+
+	std::cout << "Podaj haslo";
+	std::cin >> password;
+	std::cout << password;
+
+	//Todo: generate user_id
+	int user_id = 1333;
+	User* customer = new Customer(user_id, firstname, lastname, email, password, phonenumber, 1);
+	customer->encrypt_password(password);
+
+	//go to menu dla uzytkownikow
+	
+	//jak sie zarejestruje to bym dał zeby przesłało do bazy danych i potem uzytkownik musi sie zalogowac;
+
+}
+
