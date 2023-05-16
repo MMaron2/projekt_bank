@@ -10,22 +10,22 @@
 #include "NormalAccount.h"
 #include "SavingAccount.h"
 
-void Menu();
-void Menu_for_customers(User* customer);
-void show_profile_page(User* customer);
+void Menu(Database *database);
 // pozniej mozna przemyslec czy nie schowac tych metod register i login do klasy user/customer zeby mniejszy syf byl
-void Login();
+void Login(Database *database);
 void Register();
 
-Database database;
+
 int main()
 {
-	Menu();
+	Database *database = new Database();
+
+	Menu(database);
 	return 0;
 	
 }
 
-void Menu()
+void Menu(Database *database)
 {
 	int choice;
 	std::cout << "Wybierz co chcesz zrobic 0 logowanie 1 rejestracja";
@@ -34,16 +34,15 @@ void Menu()
 	switch (choice)
 	{
 	case 0:
-		Login();
+		Login(database);
 		break;
 	case 1:
 		Register();
 		break;
 	}
-
 }
 
-void Login()
+void Login(Database *database)
 {
 	// logujemy sie przez userID
 	int user_ID;
@@ -56,18 +55,18 @@ void Login()
 	std::cin >> password;
 
 	//sprawdzanie typu uzytkowania
-	int is_customer = database.check_customer(user_ID);
+	int is_customer = database->check_customer(user_ID);
 	if (is_customer == 0)
 	{
-		User  *customer = database.get_customer_data_by_id(user_ID);
+		User *customer = database->get_customer_data_by_id(user_ID);
 		customer->set_Active(customer);
-		Menu_for_customers(customer);
+		customer->show_menu();
 		
 	}
 	else
 	{
 
-		int is_employee = database.check_employe(user_ID);
+		int is_employee = database->check_employe(user_ID);
 		if (is_employee == 0)
 		{
 			//logowanie do pracowniczemu menu
@@ -79,8 +78,6 @@ void Login()
 			std::cout << "niepoprawne dane";
 		}
 	}
-
-
 }
 
 void Register()
@@ -110,31 +107,8 @@ void Register()
 	customer->encrypt_password(password);
 
 	//go to menu dla uzytkownikow
-	Menu_for_customers(customer);
-
-}
-
-void Menu_for_customers(User* customer)
-{
-	system("cls");
-
-	//tutaj Menu wlasciwe, przelewy itd
-	int choice;
-	std::cout << "Wybierz co chcesz zrobic 0 wyslanie przelewu 1 historia konta 2 dane profilu 3 dzial oszczedzanie";
-	std::cin >> choice;
-
-	switch (choice)
-	{
-	case 0:
-		
-		break;
-	case 1:
-		
-		break;
-	case 2:
-		show_profile_page(customer);
-		break;
-	}
+	
+	//jak sie zarejestruje to bym dał zeby przesłało do bazy danych i potem uzytkownik musi sie zalogowac;
 
 }
 

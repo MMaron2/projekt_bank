@@ -13,7 +13,7 @@
 #include <cppconn/prepared_statement.h>
 class Database
 {
-protected:
+private:
     const std::string server = "tcp://127.0.0.1:3306"; // ip bazy danych
     const std::string username = "root"; // login
     const std::string password = ""; //haslo
@@ -98,7 +98,7 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("users");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -125,7 +125,7 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("users");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -161,7 +161,7 @@ public:
 
 
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("users");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
         while (res->next())

@@ -7,16 +7,35 @@ Customer::Customer(int user_id_, std::string first_name_, std::string last_name_
 }
 
 void Customer::show_menu()
-{ 
-	std::cout << "[1] - customer" << std::endl;
-	std::cout << user_id << std::endl;
-	std::cout << first_name << std::endl;
-	std::cout << last_name << std::endl;
-	std::cout << email << std::endl;
-	std::cout << password << std::endl;
-	std::cout << phone_number << std::endl;
-	std::cout << is_active << std::endl;
+{
 
+	//tutaj Menu wlasciwe, przelewy itd
+	int choice = 0;
+
+	while (choice != 2)
+	{
+		std::cout << "[1] - przelewy\n";
+		std::cout << "[2] - stan konta\n";
+		std::cout << "[3] - wyloguj\n";
+		try
+		{
+			std::cin >> choice;
+		}
+		catch (...)
+		{
+			std::cout << "wprowadzono zle dane\n";
+			continue;
+		}
+		switch (choice)
+		{
+			case 1:
+				break;
+			case 2:
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 int Customer::show_user_id()
