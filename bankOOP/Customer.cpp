@@ -80,6 +80,24 @@ void Customer::show_accounts()
 	}
 }
 
+void Customer::transfer_funds()
+{
+
+	Database database;
+	int senders_account_number, receiving_account_number, transfer_ammount;
+	std::cout << "---------Przelewy---------\n";
+	std::cout << "Podaj numer konta z ktorego chesz przelac pieniadze: ";
+	std::cin >> senders_account_number;
+	std::cout << "Podaj numer konta na ktore chesz przelac pieniadze: ";
+	std::cin >> receiving_account_number;
+	std::cout << "Podaj kwote przelwu: ";
+	std::cin >> transfer_ammount;
+
+
+	database.update_user_balance(); // jeszcze trzeba dodaæ sprawdzenie ale to bêde sprawdza³ w bazie danych;
+
+}
+
 
 int Customer::show_user_id()
 {

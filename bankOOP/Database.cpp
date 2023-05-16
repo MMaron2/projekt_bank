@@ -240,3 +240,8 @@ int Database::generate_user_id()
     }
     return id;
 }
+
+int Database::update_user_balance()
+{
+    return 0;
+}
