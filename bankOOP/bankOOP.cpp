@@ -22,25 +22,46 @@ int main()
 	Database *database = new Database();
 	//database->generate_user_id(); //po co to tu jest?
 	Menu(database);
+	delete database;
 	return 0;
 	
 }
 
 void Menu(Database *database)
 {
-	int choice;
-	std::cout << "Wybierz co chcesz zrobic 0 logowanie 1 rejestracja";
-	std::cin >> choice;
-
-	switch (choice)
+	int choice = 0;
+	while (choice != 3)
 	{
-	case 0:
-		Login(database);
-		break;
-	case 1:
-		Register(database);
-		break;
+		std::cout << "[1] - logowanie\n";
+		std::cout << "[2] - rejestracja\n";
+		std::cout << "[3] - zakoncz\n";
+		try
+		{
+			std::cin >> choice;
+		}
+		catch (...)
+		{
+			system("cls");
+			std::cout << "prosze wpisac pin" << std::endl;
+			continue;
+		}
+		
+
+		switch (choice)
+		{
+		case 1:
+			Login(database);
+			break;
+		case 2:
+			Register(database);
+			break;
+		case 3:
+			return;
+		default:
+			break;
+		}
 	}
+
 }
 
 void Login(Database *database)
@@ -56,26 +77,21 @@ void Login(Database *database)
 	std::cin >> password;
 
 	//sprawdzanie typu uzytkowania
-	int is_customer = database->check_customer(user_ID);
-	if (is_customer == 1)
+	if (database->check_customer(user_ID))
 	{
 		User *customer = database->get_customer_data_by_id(user_ID);
 		customer->set_Active(customer);
 		customer->show_menu();
-		return;
-		
 	}
-	// jeszcze trzeba w bazie danych dodać funkcje to obsługujące
-	int is_employee = database->check_employe(user_ID);
-	if (is_employee == 1)
+	//jeszcze trzeba w bazie danych dodać funkcje to obsługujące
+	else if(database->check_employe(user_ID))
 	{
 		/*User* customer = database->get_employee_data_by_id(user_ID);
 		customer->set_Active(customer);
 		customer->show_menu();
 		return;*/
 	}
-	int is_admin = database->check_admin(user_ID);
-	if(is_admin == 1)
+	if(database->check_admin(user_ID))
 	{
 		/*User* customer = database->get_admin_data_by_id(user_ID);
 		customer->set_Active(customer);

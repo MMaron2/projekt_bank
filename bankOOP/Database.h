@@ -4,9 +4,12 @@
 #include <iostream>
 #include <vector>
 
+
 #include "Customer.h"
 #include "User.h"
 #include "Account.h"
+#include "NormalAccount.h"
+#include "SavingAccount.h"
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
@@ -22,8 +25,7 @@ private:
     sql::Statement* stmt;
     sql::PreparedStatement* pstmt;
     sql::ResultSet* res;
-    //std::vector<Account*> accounts; //tablica przechowuj¹ca konta
-    //std::vector<User*> users_data; // tablica przechowuj¹ca dane uzytkowników
+
     void connect_database()
     {
         try
@@ -50,7 +52,7 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("bank");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -77,7 +79,7 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("bank");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -105,7 +107,7 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("bank");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -141,7 +143,7 @@ public:
 
 
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("test");
+        con->setSchema("bank");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
         while (res->next())
@@ -165,6 +167,46 @@ public:
 
     }
 
+    std::vector<Account*> download_data_about_user_account(int user_id)
+    {
+        std::vector<Account*> accounts;
+        Account* account;
+
+        connect_database();
+        int account_id_;
+        double balance_;
+        int account_type_;
+
+        std::string query = "SELECT * FROM accounts WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("bank");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
+
+        while (res->next())
+        {
+
+            account_id_ = res->getInt(3);
+            balance_ = res->getDouble(4);
+            account_type_ = res->getInt(5);
+            
+            if (account_type_ == 0)
+            {
+                account = new NormalAccount(account_id_, balance_, account_type_);
+                accounts.push_back(account);
+            }
+            else if (account_type_ == 1)
+            {
+                account = new SavingAccount(account_id_, balance_, account_type_);
+                accounts.push_back(account);
+            }
+        }
+        delete res;
+        delete stmt;
+        delete con;
+
+        return accounts;
+    }
+
     User* get_employee_data_by_id(int user_id)
     {
 
@@ -183,7 +225,7 @@ public:
 
         std::string query = "INSERT INTO customers (user_id, first_name, last_name,addres, email, password, phone_number) VALUES (?,?, ?, ?, ?, ?, ?)";
 
-        con->setSchema("test");
+        con->setSchema("bank");
         pstmt = con->prepareStatement(query);
         pstmt->setInt(1, user_id);
         pstmt->setString(2, firstname);

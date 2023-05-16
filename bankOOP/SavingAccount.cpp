@@ -2,11 +2,11 @@
 
 void SavingAccount::display_account()
 {
-	std::cout << "to jest konto oszczêdnoœciowe" << std::endl;
-	std::cout << "balance: "; std::cout << balance << std::endl;
-	std::cout << "account type: " << account_type;
+	std::cout << "\tto jest konto oszczednisowe" << std::endl;
+	std::cout << "\tnumer konta: " << account_id << std::endl;
+	std::cout << "\tbalance: "; std::cout << balance << std::endl;
+	std::cout << "\taccount type: " << account_type << std::endl;
 }
-
 void SavingAccount::display_account_type()
 {
 	std::cout << "Konto oszczednosciowe";
