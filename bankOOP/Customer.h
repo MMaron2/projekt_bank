@@ -9,7 +9,10 @@ private:
 
 
 public:
-	Customer(int, std::string, std::string, std::string, std::string, int, int);
+	Customer(int user_id, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() override; //funkcja wirtualna wyswietlaj¹ca interfejs dla danego typu uzytkownika
+	virtual int show_user_id() override;
+	virtual void set_Active(User* customer) override;
+	virtual void encrypt_password(std::string) override;
 };
 

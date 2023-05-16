@@ -18,3 +18,32 @@ void Customer::show_menu()
 	std::cout << is_active << std::endl;
 
 }
+
+int Customer::show_user_id()
+{
+	return user_id;
+}
+
+void Customer::set_Active(User* customer)
+{
+	is_active = 1;
+}
+
+void Customer::encrypt_password(std::string pass)
+{
+    std::string result = "";
+
+    for (char c : pass) {
+        if (isalpha(c)) {
+            char shifted_c = toupper(c) + 1;
+            if (shifted_c > 'Z') {
+                shifted_c -= 26;
+            }
+            result += shifted_c;
+        }
+        else {
+            result += c;
+        }
+    }
+    password = result;
+}

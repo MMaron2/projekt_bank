@@ -121,7 +121,33 @@ public:
         return result;
     }
 
+    int check_employe(int user_id)
+    {
+        connect_database();
+        std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("test");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
 
+        int result = 0;
+
+        if (res->next())
+        {
+            // Znaleziono obiekt
+            result = 0;
+        }
+        else
+        {
+            result = 1;
+        }
+
+        delete res;
+        delete stmt;
+        delete con;
+
+        return result;
+
+    }
     User* get_customer_data_by_id(int user_id)
     {
         connect_database();
@@ -130,11 +156,12 @@ public:
         std::string lastname;
         std::string email;
         std::string password;
+       // std::string addres;
         int phone_number;
 
 
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("users");
+        con->setSchema("test");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
         while (res->next())
@@ -142,9 +169,10 @@ public:
             userid = res->getInt(1);
             firstname = res->getString(2); 
             lastname = res->getString(3);
-            email = res->getString(4);
-            password = res->getString(5);
-            phone_number = res->getInt(6);
+          //  addres = res->getString(4);
+            email = res->getString(5);
+            password = res->getString(6);
+            phone_number = res->getInt(7);
 
             delete res;
             delete stmt;

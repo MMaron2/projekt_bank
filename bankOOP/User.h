@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "User.h"
 
 class User
 {
@@ -15,6 +16,8 @@ protected:
 public:
 	User(int, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() = 0;
-	
+	virtual int show_user_id() = 0;
+	virtual void set_Active(User *customer) = 0;
+	virtual void encrypt_password(std::string) = 0;
 };
 
