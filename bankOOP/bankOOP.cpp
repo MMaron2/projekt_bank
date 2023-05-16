@@ -18,8 +18,9 @@ void Register(Database *database);
 
 int main()
 {
+
 	Database *database = new Database();
-	database->generate_user_id();
+	database->generate_user_id(); //po co to tu jest?
 	Menu(database);
 	return 0;
 	
@@ -56,35 +57,34 @@ void Login(Database *database)
 
 	//sprawdzanie typu uzytkowania
 	int is_customer = database->check_customer(user_ID);
-	if (is_customer == 0)
+	if (is_customer == 1)
 	{
 		User *customer = database->get_customer_data_by_id(user_ID);
 		customer->set_Active(customer);
 		customer->show_menu();
+		return;
 		
 	}
-	else
+	// jeszcze trzeba w bazie danych dodać funkcje to obsługujące
+	int is_employee = database->check_employe(user_ID);
+	if (is_employee == 1)
 	{
-		int is_employee = database->check_employe(user_ID);
-		if (is_employee == 0)
-		{
-			//logowanie do pracowniczemu menu
-			// trzeba rozroznic czy to admin czy pracownik
-			int is_admin = database->check_admin(user_ID);
-			if(is_admin == 0)
-			{
-				// panel admin
-			}else
-			{
-				//panel pracownik
-			}
-		}
-		else
-		{
-			//zle dane logowania
-			std::cout << "niepoprawne dane";
-		}
+		/*User* customer = database->get_employee_data_by_id(user_ID);
+		customer->set_Active(customer);
+		customer->show_menu();
+		return;*/
 	}
+	int is_admin = database->check_admin(user_ID);
+	if(is_admin == 1)
+	{
+		/*User* customer = database->get_admin_data_by_id(user_ID);
+		customer->set_Active(customer);
+		customer->show_menu();
+		return;*/
+	}
+
+	std::cout << "podano zly login lub haslo" << std::endl;
+	
 }
 
 void Register(Database *database)

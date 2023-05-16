@@ -107,11 +107,11 @@ public:
         if (res->next())
         {
             // Znaleziono obiekt
-            result = 0;
+            result = 1;
         }
         else
         {
-            result = 1;
+            result = 0;
         }
 
         delete res;
@@ -134,11 +134,11 @@ public:
         if (res->next())
         {
             // Znaleziono obiekt
-            result = 0;
+            result = 1;
         }
         else
         {
-            result = 1;
+            result = 0;
         }
 
         delete res;
@@ -162,11 +162,11 @@ public:
         if (res->next())
         {
             // Znaleziono obiekt
-            result = 0;
+            result = 1;
         }
         else
         {
-            result = 1;
+            result = 0;
         }
 
         delete res;
@@ -210,6 +210,16 @@ public:
             User *user = new Customer(userid,firstname,lastname,email,password,phone_number, 0);
             return user;
         }
+
+    }
+
+    User* get_employee_data_by_id(int user_id)
+    {
+
+    }
+
+    User* get_admin_data_by_id(int user_id)
+    {
 
     }
 
