@@ -43,7 +43,6 @@ void Menu(Database *database)
 		{
 			system("cls");
 			std::cout << "prosze wpisac pin" << std::endl;
-			continue;
 		}
 		
 
