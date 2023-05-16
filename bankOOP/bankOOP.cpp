@@ -13,13 +13,13 @@
 void Menu(Database *database);
 // pozniej mozna przemyslec czy nie schowac tych metod register i login do klasy user/customer zeby mniejszy syf byl
 void Login(Database *database);
-void Register();
+void Register(Database *database);
 
 
 int main()
 {
 	Database *database = new Database();
-
+	database->generate_user_id();
 	Menu(database);
 	return 0;
 	
@@ -37,7 +37,7 @@ void Menu(Database *database)
 		Login(database);
 		break;
 	case 1:
-		Register();
+		Register(database);
 		break;
 	}
 }
@@ -65,12 +65,19 @@ void Login(Database *database)
 	}
 	else
 	{
-
 		int is_employee = database->check_employe(user_ID);
 		if (is_employee == 0)
 		{
 			//logowanie do pracowniczemu menu
-			std::cout << "zalogowano admin";
+			// trzeba rozroznic czy to admin czy pracownik
+			int is_admin = database->check_admin(user_ID);
+			if(is_admin == 0)
+			{
+				// panel admin
+			}else
+			{
+				//panel pracownik
+			}
 		}
 		else
 		{
@@ -80,7 +87,7 @@ void Login(Database *database)
 	}
 }
 
-void Register()
+void Register(Database *database)
 {
 	int phonenumber;
 	std::string firstname, lastname, password, email, addres;
@@ -94,21 +101,24 @@ void Register()
 	std::cout << "Podaj Adres";
 	std::cin >> addres;
 
+	std::cout << "Podaj email";
+	std::cin >> email;
+
 	std::cout << "Podaj numer telefonu";
 	std::cin >> phonenumber;
 
 	std::cout << "Podaj haslo";
 	std::cin >> password;
-	std::cout << password;
 
-	//Todo: generate user_id
-	int user_id = 1333;
+
+	int user_id = database->generate_user_id();
 	User* customer = new Customer(user_id, firstname, lastname, email, password, phonenumber, 1);
-	customer->encrypt_password(password);
+	std::string encrypted_password = customer->encrypt_password(password);
 
+	database->create_user(user_id, firstname, lastname,  email, encrypted_password, phonenumber);
+	//przeslanie danych do bazy
 	//go to menu dla uzytkownikow
-	
-	//jak sie zarejestruje to bym dał zeby przesłało do bazy danych i potem uzytkownik musi sie zalogowac;
+	customer->show_menu();
 
 }
 

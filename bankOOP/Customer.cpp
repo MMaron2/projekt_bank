@@ -1,5 +1,7 @@
 #include "Customer.h"
+#include "Database.h"
 #include <iostream>
+#include <cstdlib>
 
 Customer::Customer(int user_id_, std::string first_name_, std::string last_name_, std::string email_, std::string password_, int phone_number_, int is_active_)
 	: User(user_id_, first_name_, last_name_, email_, password_, phone_number_, is_active_)
@@ -8,6 +10,7 @@ Customer::Customer(int user_id_, std::string first_name_, std::string last_name_
 
 void Customer::show_menu()
 {
+	system("cls");
 
 	//tutaj Menu wlasciwe, przelewy itd
 	int choice = 0;
@@ -38,6 +41,13 @@ void Customer::show_menu()
 	}
 }
 
+void Customer::create_user(User* customer)
+{
+	Database db;
+	
+}
+
+
 int Customer::show_user_id()
 {
 	return user_id;
@@ -48,7 +58,7 @@ void Customer::set_Active(User* customer)
 	is_active = 1;
 }
 
-void Customer::encrypt_password(std::string pass)
+std::string Customer::encrypt_password(std::string pass)
 {
     std::string result = "";
 
@@ -64,5 +74,5 @@ void Customer::encrypt_password(std::string pass)
             result += c;
         }
     }
-    password = result;
+	return result;
 }

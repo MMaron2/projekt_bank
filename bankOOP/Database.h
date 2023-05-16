@@ -43,7 +43,7 @@ public:
     void select_all_Accounts_from_database()
     {
         connect_database();
-        con->setSchema("users");
+        con->setSchema("test");
         stmt = con->createStatement();
         res = stmt->executeQuery("SELECT * FROM klienci");
         while (res->next())
@@ -65,7 +65,7 @@ public:
         std::string query = "SELECT * FROM klienci WHERE id='" + std::to_string(user_id)+"'";
         try
         {
-            con->setSchema("users");
+            con->setSchema("test");
             stmt = con->createStatement();
             res = stmt->executeQuery(query);
 
@@ -98,7 +98,7 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("users");
+        con->setSchema("test");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -125,7 +125,35 @@ public:
     {
         connect_database();
         std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("users");
+        con->setSchema("test");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
+
+        int result = 0;
+
+        if (res->next())
+        {
+            // Znaleziono obiekt
+            result = 0;
+        }
+        else
+        {
+            result = 1;
+        }
+
+        delete res;
+        delete stmt;
+        delete con;
+
+        return result;
+
+    }
+
+    int check_admin(int user_id)
+    {
+        connect_database();
+        std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("test");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -161,7 +189,7 @@ public:
 
 
         std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-        con->setSchema("users");
+        con->setSchema("test");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
         while (res->next())
@@ -183,6 +211,63 @@ public:
             return user;
         }
 
+    }
+
+    void create_user(int user_id, std::string firstname, std::string lastname, std::string email, std::string password, int phonenumber)
+    {
+        connect_database();
+        
+        std::string addres = "adres1";
+
+        std::string query = "INSERT INTO customers (user_id, first_name, last_name,addres, email, password, phone_number) VALUES (?,?, ?, ?, ?, ?, ?)";
+
+        con->setSchema("test");
+        pstmt = con->prepareStatement(query);
+        pstmt->setInt(1, user_id);
+        pstmt->setString(2, firstname);
+        pstmt->setString(3, lastname);
+        pstmt->setString(4, addres);
+        pstmt->setString(5, email);
+        pstmt->setString(6, password);
+        pstmt->setInt(7, phonenumber);
+        pstmt->executeUpdate();
+
+        delete con;
+        delete pstmt;
+    }
+
+    int rand_id()
+    {
+        srand(time(NULL));
+        int id_ = 0;
+        int id = 0;
+        for (int i = 0; i < 6; ++i)
+        {
+            id_ = rand();
+            id += id_;
+
+        }
+        return id;
+    }
+
+    int generate_user_id()
+    {
+        int id = rand_id();
+
+        int customer_id = check_customer(id);
+        int employe_id = check_employe(id);
+
+        if (customer_id == 0)
+        {
+	        if(employe_id == 0)
+	        {
+                return id;
+	        }
+        }else
+        {
+	       //pozniej ogarne zeby to zoptymalizowac
+        }
+        return id;
     }
 };
 

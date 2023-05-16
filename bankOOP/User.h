@@ -18,6 +18,7 @@ public:
 	virtual void show_menu() = 0;
 	virtual int show_user_id() = 0;
 	virtual void set_Active(User *customer) = 0;
-	virtual void encrypt_password(std::string) = 0;
+	virtual std::string encrypt_password(std::string) = 0;
+	virtual void create_user(User* customer) = 0;
 };
 
