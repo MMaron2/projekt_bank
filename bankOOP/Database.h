@@ -40,54 +40,6 @@ private:
 
 public:
 
-    void select_all_Accounts_from_database()
-    {
-        connect_database();
-        con->setSchema("test");
-        stmt = con->createStatement();
-        res = stmt->executeQuery("SELECT * FROM klienci");
-        while (res->next())
-        {
-            std::cout << res->getInt(1) << std::endl;
-            std::cout << res->getString(2) << std::endl;
-            std::cout << res->getString(3) << std::endl;
-
-        }
-
-        delete res;
-        delete stmt;
-        delete con;
-    }
-
-    void select_user_data(int user_id)
-    {
-        connect_database();
-        std::string query = "SELECT * FROM klienci WHERE id='" + std::to_string(user_id)+"'";
-        try
-        {
-            con->setSchema("test");
-            stmt = con->createStatement();
-            res = stmt->executeQuery(query);
-
-            while (res->next()) 
-            {
-                std::cout << res->getInt(1) << std::endl;
-                std::cout << res->getString(2) << std::endl;
-                std::cout << res->getString(3) << std::endl;
-
-            }
-            std::cout << res->getString(3) << std::endl;
-        }
-        catch (...)
-        {
-            std::cout << "nie odnaleziono uzytkownika" << std::endl;
-        }
-        
-        delete res;
-        delete stmt;
-        delete con;
-    }
-
     /**
     * \brief Funkcja zwraca 0 jak znajdzie obiekt w bazie customers,1jak nie znajdzie
     * \param user_id

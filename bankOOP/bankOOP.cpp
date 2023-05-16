@@ -20,7 +20,7 @@ int main()
 {
 
 	Database *database = new Database();
-	database->generate_user_id(); //po co to tu jest?
+	//database->generate_user_id(); //po co to tu jest?
 	Menu(database);
 	return 0;
 	
@@ -111,6 +111,7 @@ void Register(Database *database)
 	std::cin >> password;
 
 
+	// to trzeba zmienić zeby wracało do login i wymagało logowania po zarejestrowaniu
 	int user_id = database->generate_user_id();
 	User* customer = new Customer(user_id, firstname, lastname, email, password, phonenumber, 1);
 	std::string encrypted_password = customer->encrypt_password(password);
