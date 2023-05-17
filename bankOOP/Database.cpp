@@ -258,3 +258,22 @@ int Database::update_user_balance()
 {
     return 0;
 }
+
+std::string Database::encrypt_password(std::string pass)
+{
+    std::string result = "";
+
+    for (char c : pass) {
+        if (isalpha(c)) {
+            char shifted_c = toupper(c) + 1;
+            if (shifted_c > 'Z') {
+                shifted_c -= 26;
+            }
+            result += shifted_c;
+        }
+        else {
+            result += c;
+        }
+    }
+    return result;
+}

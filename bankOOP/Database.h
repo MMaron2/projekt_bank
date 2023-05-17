@@ -47,5 +47,7 @@ public:
     int rand_id();
     int generate_user_id();
     int update_user_balance(); // funkcja do wywo³ania w Customer::transfer_founds aktualizuje bazê danych po wykonaniu przelewu (trzeba dodaæ deklaracje)
+    std::string encrypt_password(std::string pass);
+    
 };
 

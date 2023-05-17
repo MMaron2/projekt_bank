@@ -13,8 +13,8 @@ Customer::Customer(int user_id_, std::string first_name_, std::string last_name_
 
 void Customer::show_menu()
 {
+	this->set_Active();
 	system("cls");
-
 	//tutaj Menu wlasciwe, przelewy itd
 	int choice = 0;
 
@@ -104,9 +104,9 @@ int Customer::show_user_id()
 	return user_id;
 }
 
-void Customer::set_Active(User* customer)
+void Customer::set_Active()
 {
-	is_active = 1;
+	this->is_active = 1;
 }
 
 std::string Customer::encrypt_password(std::string pass)

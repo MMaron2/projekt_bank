@@ -11,7 +11,7 @@ public:
 	Customer(int user_id, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() override; //funkcja wirtualna wyswietlaj¹ca interfejs dla danego typu uzytkownika
 	int show_user_id(); //?
-	void set_Active(User* customer);
+	void set_Active();
 	std::string encrypt_password(std::string);
 	void create_user(User* customer);
 	void show_user_data();
