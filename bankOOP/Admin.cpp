@@ -7,5 +7,6 @@ Admin::Admin(bool is_admin_, bool is_staff_, int user_id_, std::string first_nam
 
 void Admin::show_menu()
 {
-	std::cout << "[1] - admin\n";
+	std::cout << "[1] - Lista pracownikow\n";
+	std::cout << "[2] - Usuwanie konta\n";
 }

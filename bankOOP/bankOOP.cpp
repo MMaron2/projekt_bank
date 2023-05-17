@@ -14,7 +14,7 @@ void Menu(Database *database, User *customer);
 // pozniej mozna przemyslec czy nie schowac tych metod register i login do klasy user/customer zeby mniejszy syf byl
 void Login(Database *database, User *customer);
 void Register(Database *database);
-
+void go_to_menu();
 
 int main()
 {
@@ -79,22 +79,27 @@ void Login(Database *database, User *customer)
 	if (database->check_customer(user_ID))
 	{
 		customer = database->get_customer_data_by_id(user_ID);
+		//check if account is accepted
+		int check = database->check_account_aplication(user_ID);
+
+		if (check !=1)
+		{
+			std::cout << "Poczekaj az administrator zaakaceptuje wniosek";
+			go_to_menu();
+		}
+
 		customer->show_menu();
 	}
 	//jeszcze trzeba w bazie danych dodać funkcje to obsługujące
 	else if(database->check_employe(user_ID))
 	{
-		/*User* customer = database->get_employee_data_by_id(user_ID);
-		customer->set_Active(customer);
+		customer = database->get_employee_data_by_id(user_ID);
 		customer->show_menu();
-		return;*/
 	}
 	if(database->check_admin(user_ID))
 	{
-		/*User* customer = database->get_admin_data_by_id(user_ID);
-		customer->set_Active(customer);
+		customer = database->get_employee_data_by_id(user_ID);
 		customer->show_menu();
-		return;*/
 	}
 
 	std::cout << "podano zly login lub haslo" << std::endl;
@@ -129,9 +134,19 @@ void Register(Database *database)
 	int user_id = database->generate_user_id();
 	std::string encrypted_password = database->encrypt_password(password);
 
-	database->create_user(user_id, firstname, lastname,  email, encrypted_password, phonenumber);
-	//przeslanie danych do bazy
-	//go to menu dla uzytkowniko;
+	database->create_user(user_id, firstname, lastname,  email, encrypted_password, phonenumber,addres);
+	system("cls");
+	std::cout << "Przeslano wniosek o zalozenie konta, prosimy poczekac na jego akceptacje \n";
+	// pomysle pozniej nad lepszym sposobem przejscia do menu, odwolanie do funkcji main jest niedozwolone z programu
+	go_to_menu();
+	
 
+}
+
+void go_to_menu()
+{
+	User* usr = nullptr;
+	Database* db = new Database();
+	Menu(db, usr);
 }
 
