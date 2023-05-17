@@ -181,23 +181,36 @@ std::vector<Account*> Database::download_data_about_user_account(int user_id)
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
-    while (res->next())
+    try
     {
-
-        account_id_ = res->getInt(3);
-        balance_ = res->getDouble(4);
-        account_type_ = res->getInt(5);
-
-        if (account_type_ == 0)
+        if (res->next())
         {
-            account = new NormalAccount(account_id_, balance_, account_type_);
-            accounts.push_back(account);
+            while (res->next())
+            {
+
+                account_id_ = res->getInt(3);
+                balance_ = res->getDouble(4);
+                account_type_ = res->getInt(5);
+
+                if (account_type_ == 0)
+                {
+                    account = new NormalAccount(account_id_, balance_, account_type_);
+                    accounts.push_back(account);
+                }
+                else if (account_type_ == 1)
+                {
+                    account = new SavingAccount(account_id_, balance_, account_type_);
+                    accounts.push_back(account);
+                }
+            }
         }
-        else if (account_type_ == 1)
+        else
         {
-            account = new SavingAccount(account_id_, balance_, account_type_);
-            accounts.push_back(account);
+            return accounts;
         }
+    }
+    catch (...) {
+        std::cout << "nie udalo sie pobrac kont\n";
     }
     delete res;
     delete stmt;
