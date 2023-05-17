@@ -14,7 +14,6 @@ void Menu(Database *database, User *customer);
 // pozniej mozna przemyslec czy nie schowac tych metod register i login do klasy user/customer zeby mniejszy syf byl
 void Login(Database *database, User *customer);
 void Register(Database *database);
-void go_to_menu();
 
 int main()
 {
@@ -23,6 +22,7 @@ int main()
 	//database->generate_user_id(); //po co to tu jest?
 	Menu(database, customer);
 	delete database;
+	delete customer;
 	return 0;
 	
 }
@@ -84,22 +84,24 @@ void Login(Database *database, User *customer)
 
 		if (check !=1)
 		{
-			std::cout << "Poczekaj az administrator zaakaceptuje wniosek";
-			go_to_menu();
+			std::cout << "Poczekaj az administrator zaakaceptuje wniosek\n";
+			return;
 		}
-
 		customer->show_menu();
+		return;
 	}
 	//jeszcze trzeba w bazie danych dodać funkcje to obsługujące
 	else if(database->check_employe(user_ID))
 	{
 		customer = database->get_employee_data_by_id(user_ID);
 		customer->show_menu();
+		return;
 	}
-	if(database->check_admin(user_ID))
+	else if(database->check_admin(user_ID))
 	{
 		customer = database->get_employee_data_by_id(user_ID);
 		customer->show_menu();
+		return;
 	}
 
 	std::cout << "podano zly login lub haslo" << std::endl;
@@ -133,20 +135,13 @@ void Register(Database *database)
 	// to trzeba zmienić zeby wracało do login i wymagało logowania po zarejestrowaniu
 	int user_id = database->generate_user_id();
 	std::string encrypted_password = database->encrypt_password(password);
-
 	database->create_user(user_id, firstname, lastname,  email, encrypted_password, phonenumber,addres);
+	database->create_account(0, user_id);
 	system("cls");
 	std::cout << "Przeslano wniosek o zalozenie konta, prosimy poczekac na jego akceptacje \n";
-	// pomysle pozniej nad lepszym sposobem przejscia do menu, odwolanie do funkcji main jest niedozwolone z programu
-	go_to_menu();
-	
-
+	std::cout << "Pin do logowania: " << user_id << std::endl;
+	// pomysle pozniej nad lepszym sposobem przejscia do menu, odwolanie do funkcji main jest niedozwolone z programu (edit juz ogarniete)
+	return;
 }
 
-void go_to_menu()
-{
-	User* usr = nullptr;
-	Database* db = new Database();
-	Menu(db, usr);
-}
 

@@ -7,7 +7,7 @@ protected:
 	int account_type;
 
 public:
-	Account(int = 0, double = 0.0, int = 0);
+	Account(int, double, int);
 
 	virtual void display_account() = 0; // funkcja wirtualna wyswietlaj¹ca dane konta
 	virtual void display_account_type() = 0;

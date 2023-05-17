@@ -73,11 +73,16 @@ void Customer::show_user_data()
 
 void Customer::show_accounts()
 {
-	for (Account *account : user_accounts)
+	if (!user_accounts.empty())
 	{
-		std::cout << "-------------konto----------------\n";
-		account->display_account();
+		for (Account* account : user_accounts)
+		{
+			std::cout << "-------------konto----------------\n";
+			account->display_account();
+		}
+		return;
 	}
+	std::cout << "brak powiazanych rachunkow bankowych z tym kontem\n";
 }
 
 void Customer::transfer_funds()

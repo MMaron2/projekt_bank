@@ -5,7 +5,7 @@ class NormalAccount : public Account
 {
 
 public:
-	NormalAccount(int account_id_ = 0, double balance_=0.0, int account_type_=0) : Account(account_id_, balance_, account_type_)
+	NormalAccount(int account_id_, double balance_, int account_type_) : Account(account_id_, balance_, account_type_)
 	{
 
 	}

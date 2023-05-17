@@ -1,5 +1,7 @@
 #include "Database.h"
 #include "Employee.h"
+#include <string>
+#include <time.h>
 
 void Database::connect_database()
 {
@@ -35,9 +37,9 @@ int Database::check_customer(int user_id)
         result = 0;
     }
 
-    delete res;
-    delete stmt;
-    delete con;
+    delete this->res;
+    delete this->stmt;
+    delete this->con;
 
     return result;
 }
@@ -62,9 +64,9 @@ int Database::check_employe(int user_id)
         result = 0;
     }
 
-    delete res;
-    delete stmt;
-    delete con;
+    delete this->res;
+    delete this->stmt;
+    delete this->con;
 
     return result;
 }
@@ -89,9 +91,9 @@ int Database::check_admin(int user_id)
         result = 0;
     }
 
-    delete res;
-    delete stmt;
-    delete con;
+    delete this->res;
+    delete this->stmt;
+    delete this->con;
 
     return result;
 }
@@ -122,9 +124,9 @@ User* Database::get_customer_data_by_id(int user_id)
         password = res->getString(6);
         phone_number = res->getInt(7);
 
-        delete res;
-        delete stmt;
-        delete con;
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
 
         // tutaj bedzie utworzenie obiektu customer i zwrocenie go
         User* user = new Customer(userid, firstname, lastname, email, password, phone_number, 0);
@@ -157,9 +159,9 @@ User* Database::get_employee_data_by_id(int user_id)
         email = res->getString(5);
         password = res->getString(6);
 
-        delete res;
-        delete stmt;
-        delete con;
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
 
         User* user = new Employee(false,true,user_id,firstname,lastname,email,password,0,0);
         return user;
@@ -191,9 +193,9 @@ User* Database::get_admin_data_by_id(int user_id)
         email = res->getString(5);
         password = res->getString(6);
 
-        delete res;
-        delete stmt;
-        delete con;
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
 
         User* user = new Employee(true, true, user_id, firstname, lastname, email, password, 0, 0);
         return user;
@@ -204,8 +206,8 @@ void Database::create_user(int user_id, std::string firstname, std::string lastn
 {
     connect_database();
 
-    std::string query = "INSERT INTO customers (user_id, first_name, last_name,addres, email, password, phone_number) VALUES (?,?, ?, ?, ?, ?, ?)";
-
+    // tworzenie w bazie nowego uzytkownika
+    std::string query = "INSERT INTO customers (user_id, first_name, last_name,addres, email, password, phone_number, is_accepted) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
     con->setSchema("bank");
     pstmt = con->prepareStatement(query);
     pstmt->setInt(1, user_id);
@@ -215,8 +217,10 @@ void Database::create_user(int user_id, std::string firstname, std::string lastn
     pstmt->setString(5, email);
     pstmt->setString(6, password);
     pstmt->setInt(7, phonenumber);
+    pstmt->setInt(8, 0);
     pstmt->executeUpdate();
 
+    con->close();
     delete con;
     delete pstmt;
 }
@@ -226,26 +230,26 @@ std::vector<Account*> Database::download_data_about_user_account(int user_id)
     std::vector<Account*> accounts;
     Account* account;
 
-    connect_database();
     int account_id_;
     double balance_;
     int account_type_;
 
-    std::string query = "SELECT * FROM accounts WHERE user_id='" + std::to_string(user_id) + "'";
+    connect_database();
+
+    std::string query = "SELECT account_id, balance, account_type FROM accounts WHERE user_id='" + std::to_string(user_id) + "'";
     con->setSchema("bank");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
-    try
-    {
         if (res->next())
         {
+            res->previous();
             while (res->next())
             {
 
-                account_id_ = res->getInt(3);
-                balance_ = res->getDouble(4);
-                account_type_ = res->getInt(5);
+                account_id_ = res->getInt(1);
+                balance_ = res->getDouble(2);
+                account_type_ = res->getInt(3);
 
                 if (account_type_ == 0)
                 {
@@ -263,10 +267,6 @@ std::vector<Account*> Database::download_data_about_user_account(int user_id)
         {
             return accounts;
         }
-    }
-    catch (...) {
-        std::cout << "nie udalo sie pobrac kont\n";
-    }
     delete res;
     delete stmt;
     delete con;
@@ -279,7 +279,7 @@ int Database::rand_id()
     srand(time(NULL));
     int id_ = 0;
     int id = 0;
-    for (int i = 0; i < 6; ++i)
+    for (int i = 0; i <= 6; ++i)
     {
         id_ = rand();
         id += id_;
@@ -347,14 +347,15 @@ std::vector<int> Database::get_applications()
         users_id.push_back(res->getInt(1));
     }
 
-    delete res;
-    delete stmt;
-    delete con;
+    delete this->res;
+    delete this->stmt;
+    delete this->con;
 
     return users_id;
 
 }
 
+//co to robi ?
 std::vector<std::string> Database::get_user_credentials(int user_id)
 {
     //w formacie 0 first name 1 last name 2 addres  3 email 4 phone number
@@ -381,9 +382,9 @@ std::vector<std::string> Database::get_user_credentials(int user_id)
         email = res->getString(5);
         phone_number = res->getInt(7);
 
-        delete res;
-        delete stmt;
-        delete con;
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
 
         users_credential.push_back(firstname);
         users_credential.push_back(lastname);
@@ -406,8 +407,8 @@ void Database::accept_application(int user_id)
     pstmt = con->prepareStatement(query);
     pstmt->executeUpdate();
 
-    delete con;
-    delete pstmt;
+    delete this->con;
+    delete this->pstmt;
 }
 
 int Database::check_account_aplication(int user_id)
@@ -418,17 +419,50 @@ int Database::check_account_aplication(int user_id)
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
-    int result; // Zmienna przechowuj¹ca wynik
+    int result = 0; // Zmienna przechowuj¹ca wynik
 
     while (res->next())
     {
         result = res->getInt(1);
     }
 
-    delete res;
-    delete stmt;
-    delete con;
+    delete this->res;
+    delete this->stmt;
+    delete this->con;
 
     return result;
 
+}
+
+void Database::create_account(int type_, int user_id_)
+{
+    connect_database();
+    try
+    {
+        int account_id = generate_account_id();
+        std::string query = "INSERT INTO accounts (account_id, user_id, balance, account_type) VALUES (?,?,?,?)";
+        con->setSchema("bank");
+        pstmt = con->prepareStatement(query);
+        pstmt->setInt(1, account_id);
+        pstmt->setInt(2, user_id_);
+        pstmt->setDouble(3, 0);
+        pstmt->setInt(4, type_);
+        pstmt->executeUpdate();
+    }
+    catch (sql::SQLException e)
+    {
+        std::cout << "Nie udalo sie polaczyc z baza danych. Error message: " << e.what() << std::endl;
+    }
+
+    delete con;
+    delete pstmt;
+}
+
+
+int Database::generate_account_id()
+{
+    int account_id;
+    srand(time(NULL));
+    account_id = rand() % 99999999 + 10000000;
+    return account_id;
 }

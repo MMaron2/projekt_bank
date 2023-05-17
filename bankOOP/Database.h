@@ -52,5 +52,7 @@ public:
     std::vector<std::string> get_user_credentials(int user_id);
     void accept_application(int user_id);
     int check_account_aplication(int user_id);
+    void create_account(int type_, int user_id_);
+    int generate_account_id();
 };
 
