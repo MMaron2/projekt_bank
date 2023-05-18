@@ -19,6 +19,7 @@ void Admin::show_menu()
 		std::cout << "[3] - Lista uztykownikow\n";
 		std::cout << "[4] - Lista wnioskow o zalozenie konta\n";
 		std::cout << "[5] - Dodanie konta pracownika\n";
+		std::cout << "[6] - Wyloguj\n";
 		try
 		{
 			std::cin.ignore();
@@ -76,7 +77,9 @@ void Admin::delete_customer_account()
 	int usr_id;
 	std::cout << "Prosze podac ID klienta do usuniecia";
 	std::cin >> usr_id;
+
 	database.delete_customer(usr_id);
+	std::cout << "Uzytkownik zostal usuniety\n";
 	
 }
 

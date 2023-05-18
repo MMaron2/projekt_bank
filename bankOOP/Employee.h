@@ -12,5 +12,7 @@ public:
 	void show_applications();
 	void show_application(int user_id);
 	void users_list();
+	void show_user_details();
+	void check_transfers();
 };
 

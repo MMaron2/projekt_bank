@@ -17,11 +17,13 @@ void Employee::show_menu()
 	system("cls");
 	int choice = 0;
 
-	while (choice != 3)
+	while (choice != 5)
 	{
 		std::cout << "[1] - Wnioski do akceptacji\n";
 		std::cout << "[2] - Wyswietl uzytkownika\n";
 		std::cout << "[3] - Lista uztykownikow\n";
+		std::cout << "[4] - Przelewy do zatwierdzenia\n";
+		std::cout << "[5] - Wyloguj\n";
 		try
 		{
 			std::cin >> choice;
@@ -37,15 +39,14 @@ void Employee::show_menu()
 			show_applications();
 			break;
 		case 2:
+			show_user_details();
 			break;
 		case 3:
 			users_list();
 			break;
 		case 4:
-			
+			check_transfers();
 			break;
-		case 5:
-			return;
 		default:
 			break;
 		}
@@ -120,4 +121,24 @@ void Employee::users_list()
 
 	}
 }
+
+void Employee::check_transfers()
+{
+	//TOOD czekam na skonczenie klasy przelewy zeby to dokonczyc
+}
+
+void Employee::show_user_details()
+{
+	Database database;
+	int usr_id;
+
+	std::cout << "Podaj ID uzytkownika ktorego chcesz wyswietlic\n";
+	std::cin >> usr_id;
+
+	std::vector<std::string> users_credential;
+	users_credential = database.get_user_credentials(usr_id);
+	std::cout << "ID uzytkownika " << usr_id << " " << users_credential[1] << " " << users_credential[2] << std::endl;
+}
+
+
 

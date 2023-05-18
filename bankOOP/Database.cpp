@@ -512,13 +512,18 @@ void Database::delete_customer(int user_id)
 
     std::string query = "DELETE FROM customers WHERE user_id = '" + std::to_string(user_id) + "'";
 
-    con->setSchema("bank");
-    stmt = con->createStatement();
-    res = stmt->executeQuery(query);
+    try {
+        con->setSchema("bank");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
 
-    delete con;
-    delete stmt;
-    delete res;
+        delete con;
+        delete stmt;
+        delete res;
+    }
+    catch (sql::SQLException& e) {
+
+    }
 
 }
 
