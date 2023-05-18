@@ -10,5 +10,6 @@ public:
 	}
 	virtual void display_account() override;
 	virtual void display_account_type() override;
+	virtual void show_balance() override;
 };
 

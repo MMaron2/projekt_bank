@@ -9,6 +9,7 @@ Customer::Customer(int user_id_, std::string first_name_, std::string last_name_
 {
 	Database database;
 	user_accounts = database.download_data_about_user_account(user_id_);
+	used_account = user_accounts[0];
 }
 
 void Customer::show_menu()
@@ -39,6 +40,7 @@ void Customer::show_menu()
 			case 1:
 				break;
 			case 2:
+				used_account->show_balance();
 				break;
 			case 3:
 				Customer::show_user_data();
@@ -102,7 +104,6 @@ void Customer::transfer_funds()
 	database.update_user_balance(); // jeszcze trzeba dodaæ sprawdzenie ale to bêde sprawdza³ w bazie danych;
 
 }
-
 
 int Customer::show_user_id()
 {

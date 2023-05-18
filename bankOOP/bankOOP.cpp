@@ -23,7 +23,6 @@ int main()
 	delete database;
 	delete customer;
 	return 0;
-	
 }
 
 void Menu(Database *database, User *customer)
@@ -34,15 +33,16 @@ void Menu(Database *database, User *customer)
 		std::cout << "[1] - logowanie\n";
 		std::cout << "[2] - rejestracja\n";
 		std::cout << "[3] - zakoncz\n";
-		try
+	
+		std::cin >> choice;
+		while (!std::cin)
 		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Prosze wybrac numer: ";
 			std::cin >> choice;
 		}
-		catch (...)
-		{
-			system("cls");
-			std::cout << "prosze wpisac pin" << std::endl;
-		}
+		
 		
 
 		switch (choice)

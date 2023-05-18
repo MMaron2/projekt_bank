@@ -7,6 +7,7 @@ class Customer : public User // dziedziczy publicznie z User
 {
 private:
 	std::vector<Account*> user_accounts;
+	Account* used_account;
 public:
 	Customer(int user_id, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() override; //funkcja wirtualna wyswietlaj¹ca interfejs dla danego typu uzytkownika
@@ -17,5 +18,6 @@ public:
 	void show_user_data();
 	void show_accounts();
 	void transfer_funds();
+	void change_account();
 };
 
