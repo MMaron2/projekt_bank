@@ -14,3 +14,9 @@ void NormalAccount::display_account_type()
 {
 	std::cout << "Konto konsumenckie";
 }
+
+void NormalAccount::show_balance()
+{
+	std::cout << "Stan konta: ";
+	std::cout << balance << std::endl;
+}

@@ -11,5 +11,6 @@ public:
 
 	virtual void display_account() = 0; // funkcja wirtualna wyswietlaj¹ca dane konta
 	virtual void display_account_type() = 0;
+	virtual void show_balance() = 0;
 };
 

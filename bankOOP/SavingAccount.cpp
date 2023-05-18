@@ -11,3 +11,9 @@ void SavingAccount::display_account_type()
 {
 	std::cout << "Konto oszczednosciowe";
 }
+
+void SavingAccount::show_balance()
+{
+	std::cout << "Stan konta: ";
+	std::cout << balance << std::endl;
+}
