@@ -19,7 +19,6 @@ int main()
 {
 	User* customer  = nullptr;
 	Database *database = new Database();
-	//database->generate_user_id(); //po co to tu jest?
 	Menu(database, customer);
 	delete database;
 	delete customer;
@@ -90,7 +89,6 @@ void Login(Database *database, User *customer)
 		customer->show_menu();
 		return;
 	}
-	//jeszcze trzeba w bazie danych dodać funkcje to obsługujące
 	else if(database->check_employe(user_ID))
 	{
 		customer = database->get_employee_data_by_id(user_ID);
@@ -99,7 +97,7 @@ void Login(Database *database, User *customer)
 	}
 	else if(database->check_admin(user_ID))
 	{
-		customer = database->get_employee_data_by_id(user_ID);
+		customer = database->get_admin_data_by_id(user_ID);
 		customer->show_menu();
 		return;
 	}
@@ -141,7 +139,6 @@ void Register(Database *database)
 	std::cout << "Przeslano wniosek o zalozenie konta, prosimy poczekac na jego akceptacje \n";
 	std::cout << "Pin do logowania: " << user_id << std::endl;
 	// pomysle pozniej nad lepszym sposobem przejscia do menu, odwolanie do funkcji main jest niedozwolone z programu (edit juz ogarniete)
-	return;
 }
 
 

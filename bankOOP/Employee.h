@@ -11,5 +11,6 @@ public:
 	virtual void show_menu() override; // funkcja wirtualna wyswietlaj¹ca inter
 	void show_applications();
 	void show_application(int user_id);
+	void users_list();
 };
 

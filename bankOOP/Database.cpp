@@ -3,6 +3,8 @@
 #include <string>
 #include <time.h>
 
+#include "Admin.h"
+
 void Database::connect_database()
 {
     try
@@ -176,8 +178,7 @@ User* Database::get_admin_data_by_id(int user_id)
     std::string lastname;
     std::string email;
     std::string password;
-    int is_Admin;
-    int phone_number;
+
 
 
     std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
@@ -189,16 +190,15 @@ User* Database::get_admin_data_by_id(int user_id)
         userid = res->getInt(1);
         firstname = res->getString(2);
         lastname = res->getString(3);
-        is_Admin = res->getInt(4);
-        email = res->getString(5);
-        password = res->getString(6);
+        email = res->getString(4);
+        password = res->getString(5);
 
         delete this->res;
         delete this->stmt;
         delete this->con;
 
-        User* user = new Employee(true, true, user_id, firstname, lastname, email, password, 0, 0);
-        return user;
+        User* admin = new Admin(true, true, user_id, firstname, lastname, email, password, 0, 0);
+        return admin;
     }
 }
 
@@ -294,7 +294,7 @@ int Database::generate_user_id()
 
     int customer_id = check_customer(id);
     int employe_id = check_employe(id);
-
+    //TODO: SPRAWDZENIE W ADMIENIE TEZ
     if (customer_id == 0)
     {
         if (employe_id == 0)
@@ -355,7 +355,7 @@ std::vector<int> Database::get_applications()
 
 }
 
-//co to robi ?
+//co to robi ? zwraca dane uzytkownika ktory zlozyl wniosek i employe go rozpatrza
 std::vector<std::string> Database::get_user_credentials(int user_id)
 {
     //w formacie 0 first name 1 last name 2 addres  3 email 4 phone number
@@ -465,4 +465,112 @@ int Database::generate_account_id()
     srand(time(NULL));
     account_id = rand() % 99999999 + 10000000;
     return account_id;
+}
+
+std::vector<int> Database::get_all_clients()
+{
+    connect_database();
+    std::vector<int> users_id;
+    std::string query = "SELECT user_id FROM customers";
+
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+
+    while (res->next())
+    {
+        users_id.push_back(res->getInt(1));
+    }
+    return users_id;
+
+}
+
+std::vector<int> Database::get_all_employe()
+{
+    connect_database();
+    std::vector<int> users_id;
+    std::string query = "SELECT user_id FROM employe";
+
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+
+    while (res->next())
+    {
+        users_id.push_back(res->getInt(1));
+    }
+    delete con;
+    delete stmt;
+    delete res;
+    return users_id;
+
+}
+
+void Database::delete_customer(int user_id)
+{
+    connect_database();
+
+    std::string query = "DELETE FROM customers WHERE user_id = '" + std::to_string(user_id) + "'";
+
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+
+    delete con;
+    delete stmt;
+    delete res;
+
+}
+
+void Database::create_employe(int user_id, std::string firstname, std::string lastname, std::string email, std::string password)
+{
+    //TODO NAPRAWIC CZEMU NIE ZAPISUJE SIE W BAZIE DANYCH
+    connect_database();
+    // Tworzenie w bazie nowego u¿ytkownika
+    std::string query = "INSERT INTO employe (user_id, first_name, last_name,isAdmin, email, password) VALUES (?, ?,?, ?, ?, ?)";
+    con->setSchema("bank");
+    pstmt = con->prepareStatement(query);
+    pstmt->setInt(1, user_id);
+    pstmt->setString(2, firstname);
+    pstmt->setString(3, lastname);
+    pstmt->setInt(4,0);
+    pstmt->setString(5, email);
+    pstmt->setString(6, password);
+    pstmt->executeUpdate();
+
+    con->close();
+    delete con;
+    delete pstmt;
+}
+
+std::vector<std::string> Database::get_employe_credentials(int user_id)
+{
+    //w formacie 0 first name 1 last name
+    std::vector<std::string> users_credential;
+    connect_database();
+    int userid;
+    std::string firstname;
+    std::string lastname;
+
+
+
+    std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+    while (res->next())
+    {
+        firstname = res->getString(2);
+        lastname = res->getString(3);
+
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
+
+        users_credential.push_back(firstname);
+        users_credential.push_back(lastname);
+
+        return users_credential;
+        
+    }
 }

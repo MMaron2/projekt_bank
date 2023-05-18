@@ -3,6 +3,7 @@
 #include "Database.h"
 #include "User.h"
 #include "Customer.h"
+#include "Admin.h"
 
 Employee::Employee(bool is_admin_, bool is_staff_, int user_id_, std::string first_name_, std::string last_name_, std::string email_, std::string password_, int phone_number_, int is_active_)
 	:User(user_id_, first_name_, last_name_, email_, password_, phone_number_ ,is_active_)
@@ -38,7 +39,7 @@ void Employee::show_menu()
 		case 2:
 			break;
 		case 3:
-			
+			users_list();
 			break;
 		case 4:
 			
@@ -59,12 +60,14 @@ void Employee::show_applications()
 
 	users_id = database.get_applications();
 
-	std::cout << "Witaj (nazwa pracownika). Masz " << users_id.size() << " wnioskow do sprawdzenia. Wpisz [0] zeby sie cofnac, [1] aby sprawdzic" << std::endl;
+	std::cout << "Witaj (nazwa pracownika). Masz " << users_id.size() << " wnioskow do sprawdzenia. Wpisz [0] zeby sie cofnac" << std::endl; //TODO: dodanie cofniecia
 
 	std::cout << "Lista id wnioskow" << std::endl;
 	for (int i = 0; i < users_id.size(); ++i)
 	{
-		std::cout << users_id[i] << std::endl;
+		std::vector<std::string> users_credential;
+		users_credential = database.get_user_credentials(users_id[i]);
+		std::cout << "ID uzytkownika " << users_id[i] << " " << users_credential[1] << " " << users_credential[2] << std::endl;
 	}
 
 	std::cout << "Wpisz id aby rozpatrzyc wniosek" << std::endl;
@@ -101,3 +104,20 @@ void Employee::show_application(int user_id)
 	}
 
 }
+
+void Employee::users_list()
+{
+	system("cls");
+	Database database;
+	std::vector<int> users_id;
+	users_id = database.get_all_clients();
+
+	for (int i = 0; i < users_id.size(); ++i)
+	{
+		std::vector<std::string> users_credential;
+		users_credential = database.get_user_credentials(users_id[i]);
+		std::cout << "ID uzytkownika " << users_id[i] << " " << users_credential[1] << " " << users_credential[2] << std::endl;
+
+	}
+}
+

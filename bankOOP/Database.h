@@ -50,9 +50,14 @@ public:
     std::string encrypt_password(std::string pass);
     std::vector<int> get_applications();
     std::vector<std::string> get_user_credentials(int user_id);
+    std::vector<std::string> get_employe_credentials(int user_id);
     void accept_application(int user_id);
     int check_account_aplication(int user_id);
     void create_account(int type_, int user_id_);
     int generate_account_id();
+    std::vector<int> get_all_clients();
+    std::vector<int> get_all_employe();
+    void delete_customer(int user_id);
+    void create_employe(int user_id, std::string firstname, std::string lastname, std::string email, std::string password);
 };
 
