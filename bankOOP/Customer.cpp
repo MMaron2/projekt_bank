@@ -38,6 +38,7 @@ void Customer::show_menu()
 		switch (choice)
 		{
 			case 1:
+				transfers();
 				break;
 			case 2:
 				used_account->show_balance();
@@ -133,3 +134,25 @@ std::string Customer::encrypt_password(std::string pass)
     }
 	return result;
 }
+
+void Customer::transfers()
+{
+	//TODO mozna by wyswietlic dane konta typu jakie jest saldo
+
+	int acc_id;
+	double amount;
+	std::cout << "Wpisz numer konta do ktorego chcesz wyslac pieniadze\n";
+	std::cin >> acc_id;
+
+
+	//TODO sprawdzenie czy istnieje takie account
+
+	std::cout << "Wpisz kwote ktora chcesz wyslac\n";
+	std::cin >> amount;
+
+	//TODO sprawdzenie czy kwota nie jest wieksza od posiadanego salda
+
+	Database database;
+	database.transfer_to_normalaccount(acc_id, amount, this->user_id);
+}
+

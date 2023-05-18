@@ -19,5 +19,6 @@ public:
 	void show_accounts();
 	void transfer_funds();
 	void change_account();
+	void transfers();
 };
 

@@ -59,5 +59,7 @@ public:
     std::vector<int> get_all_employe();
     void delete_customer(int user_id);
     void create_employe(int user_id, std::string firstname, std::string lastname, std::string email, std::string password);
+    void transfer_to_normalaccount(int account_id, double amount, int user_id);
+    double get_ballance(int account_id);
 };
 

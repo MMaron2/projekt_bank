@@ -529,7 +529,6 @@ void Database::delete_customer(int user_id)
 
 void Database::create_employe(int user_id, std::string firstname, std::string lastname, std::string email, std::string password)
 {
-    //TODO NAPRAWIC CZEMU NIE ZAPISUJE SIE W BAZIE DANYCH
     connect_database();
     // Tworzenie w bazie nowego u¿ytkownika
     std::string query = "INSERT INTO employe (user_id, firstname, lastname,isAdmin, email, password) VALUES (?, ?,?, ?, ?, ?)";
@@ -578,4 +577,57 @@ std::vector<std::string> Database::get_employe_credentials(int user_id)
         return users_credential;
         
     }
+}
+
+double Database::get_ballance(int account_id)
+{
+    connect_database();
+    std::string query = "SELECT * FROM accounts WHERE account_id='" + std::to_string(account_id) + "'";
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+    while (res->next())
+    {
+        double balance;
+        balance = res->getDouble(4);
+
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
+
+        return balance;
+
+    }
+}
+
+
+void Database::transfer_to_normalaccount(int account_id, double amount, int user_id)
+{
+    connect_database();
+    double old_balance;
+    double new_balance;
+    old_balance = get_ballance(account_id);
+    new_balance = old_balance + amount;
+    std::cout << old_balance << " " << new_balance << " " << amount;
+    con->setSchema("bank");
+    std::string query = "UPDATE accounts SET balance=? WHERE account_id = '" + std::to_string(account_id) + "'";
+    pstmt = con->prepareStatement(query);
+	pstmt->setDouble(1, new_balance);
+    pstmt->execute();
+    // Nie wiem poddaje sie wszystkie dane widzi a nie moze ich updatowac nie mam ta to gowno sily,
+
+    /*try
+    {
+        std::string query = "UPDATE accounts SET balance = " + std::to_string(new_balance) + " WHERE account_id = '" + std::to_string(account_id) + "'";
+        stmt = con->createStatement();
+        stmt->executeUpdate("USE bank");
+        stmt->executeUpdate(query);
+        delete stmt;
+        delete con;
+    }
+    catch (sql::SQLException& e) {
+        std::cout << "Komunikat b³êdu: " << e.what() << std::endl;
+        std::cout << "Kod b³êdu: " << e.getErrorCode() << std::endl;
+    } */
+	
 }

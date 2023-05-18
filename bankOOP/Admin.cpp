@@ -83,6 +83,7 @@ void Admin::delete_customer_account()
 	
 }
 
+//TODO nie wiem czemu ale przenosi do menu po utworzeniu pracownika
 void Admin::create_employe_account()
 {
 	system("cls");
