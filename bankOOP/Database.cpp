@@ -527,7 +527,7 @@ void Database::create_employe(int user_id, std::string firstname, std::string la
     //TODO NAPRAWIC CZEMU NIE ZAPISUJE SIE W BAZIE DANYCH
     connect_database();
     // Tworzenie w bazie nowego u¿ytkownika
-    std::string query = "INSERT INTO employe (user_id, first_name, last_name,isAdmin, email, password) VALUES (?, ?,?, ?, ?, ?)";
+    std::string query = "INSERT INTO employe (user_id, firstname, lastname,isAdmin, email, password) VALUES (?, ?,?, ?, ?, ?)";
     con->setSchema("bank");
     pstmt = con->prepareStatement(query);
     pstmt->setInt(1, user_id);
