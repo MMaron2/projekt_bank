@@ -44,7 +44,7 @@ void Customer::show_menu()
 				used_account->show_balance();
 				break;
 			case 3:
-				Customer::show_user_data();
+				show_user_data();
 				break;
 			case 4:
 				show_accounts();
@@ -88,24 +88,6 @@ void Customer::show_accounts()
 	std::cout << "brak powiazanych rachunkow bankowych z tym kontem\n";
 }
 
-void Customer::transfer_funds()
-{
-
-	Database database;
-	int senders_account_number, receiving_account_number, transfer_ammount;
-	std::cout << "---------Przelewy---------\n";
-	std::cout << "Podaj numer konta z ktorego chesz przelac pieniadze: ";
-	std::cin >> senders_account_number;
-	std::cout << "Podaj numer konta na ktore chesz przelac pieniadze: ";
-	std::cin >> receiving_account_number;
-	std::cout << "Podaj kwote przelwu: ";
-	std::cin >> transfer_ammount;
-
-
-	database.update_user_balance(); // jeszcze trzeba dodaæ sprawdzenie ale to bêde sprawdza³ w bazie danych;
-
-}
-
 int Customer::show_user_id()
 {
 	return user_id;
@@ -135,24 +117,29 @@ std::string Customer::encrypt_password(std::string pass)
 	return result;
 }
 
+void Customer::change_account()
+{
+}
+
 void Customer::transfers()
 {
-	//TODO mozna by wyswietlic dane konta typu jakie jest saldo
-
 	int acc_id;
 	double amount;
+	//TODO mozna by wyswietlic dane konta typu jakie jest saldo
+	std::cout << "Kwota zostanie przelana z aktualnie uzywanego konta\n";
 	std::cout << "Wpisz numer konta do ktorego chcesz wyslac pieniadze\n";
-	std::cin >> acc_id;
-
-
+	std::cout << "Numer konta: "; std::cin >> acc_id;
 	//TODO sprawdzenie czy istnieje takie account
 
 	std::cout << "Wpisz kwote ktora chcesz wyslac\n";
 	std::cin >> amount;
-
+	if (amount > used_account->balance)
+	{
+		std::cout << "Brak wystarczaj¹cych srodków\n";
+		return;
+	}
 	//TODO sprawdzenie czy kwota nie jest wieksza od posiadanego salda
-
 	Database database;
-	database.transfer_to_normalaccount(acc_id, amount, this->user_id);
+	database.transfer_to_normalaccount(acc_id, amount, used_account->account_id);
 }
 

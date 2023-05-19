@@ -6,6 +6,7 @@
 class Customer : public User // dziedziczy publicznie z User
 {
 private:
+	friend class Account;
 	std::vector<Account*> user_accounts;
 	Account* used_account;
 public:
@@ -17,7 +18,6 @@ public:
 	void create_user(User* customer);
 	void show_user_data();
 	void show_accounts();
-	void transfer_funds();
 	void change_account();
 	void transfers();
 };
