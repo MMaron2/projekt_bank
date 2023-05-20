@@ -19,7 +19,7 @@ void Customer::show_menu()
 	//tutaj Menu wlasciwe, przelewy itd
 	int choice = 0;
 
-	while (choice != 5)
+	while (choice != 6)
 	{
 		std::cout << "[1] - przelewy\n";
 		std::cout << "[2] - stan konta\n";
@@ -174,6 +174,7 @@ void Customer::add_new_account()
 				return;
 			case 2:
 				database.create_account(1, this->user_id);
+				user_accounts = database.download_data_about_user_account(this->user_id);
 				return;
 			case 3:
 				return;
