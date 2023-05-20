@@ -38,13 +38,13 @@ public:
     int check_customer(int user_id);
     int check_employe(int user_id);
     int check_admin(int user_id);
+    int check_account_id(int account_id);
     //----------------------------------------------
     User* get_customer_data_by_id(int user_id); // zwraca wskaznik na obiekt typu User
     std::vector<Account*> download_data_about_user_account(int user_id); // zwraca tablicê zawieraj¹c¹ wskaŸniki na obiekty typu Account
     User* get_employee_data_by_id(int user_id);
     User* get_admin_data_by_id(int user_id);
     void create_user(int user_id, std::string firstname, std::string lastname, std::string email, std::string password, int phonenumber,std::string addres);
-    int rand_id();
     int generate_user_id();
     int update_user_balance(); // funkcja do wywo³ania w Customer::transfer_founds aktualizuje bazê danych po wykonaniu przelewu (trzeba dodaæ deklaracje)
     std::string encrypt_password(std::string pass);

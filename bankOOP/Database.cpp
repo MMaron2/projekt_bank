@@ -1,4 +1,4 @@
-#include "Database.h"
+ï»¿#include "Database.h"
 #include "Employee.h"
 #include <string>
 #include <time.h>
@@ -27,7 +27,7 @@ int Database::check_customer(int user_id)
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
-    int result = 0; // Zmienna przechowuj¹ca wynik
+    int result = 0; // Zmienna przechowujÂ¹ca wynik
 
     if (res->next())
     {
@@ -96,6 +96,33 @@ int Database::check_admin(int user_id)
     delete this->res;
     delete this->stmt;
     delete this->con;
+
+    return result;
+}
+
+int Database::check_account_id(int account_id)
+{
+    connect_database();
+    std::string query = "SELECT * FROM accounts WHERE account_id='" + std::to_string(account_id) + "'";
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+
+    int result = 0;
+
+    if (res->next())
+    {
+        // Znaleziono obiekt
+        result = 1;
+    }
+    else
+    {
+        result = 0;
+    }
+
+    delete res;
+    delete stmt;
+    delete con;
 
     return result;
 }
@@ -274,39 +301,18 @@ std::vector<Account*> Database::download_data_about_user_account(int user_id)
     return accounts;
 }
 
-int Database::rand_id()
-{
-    srand(time(NULL));
-    int id_ = 0;
-    int id = 0;
-    for (int i = 0; i <= 6; ++i)
-    {
-        id_ = rand();
-        id += id_;
-
-    }
-    return id;
-}
-
 int Database::generate_user_id()
 {
-    int id = rand_id();
+    int user_id;
+    srand(time(NULL));
+    do
+    {
 
-    int customer_id = check_customer(id);
-    int employe_id = check_employe(id);
-    //TODO: SPRAWDZENIE W ADMIENIE TEZ
-    if (customer_id == 0)
-    {
-        if (employe_id == 0)
-        {
-            return id;
-        }
-    }
-    else
-    {
-        //pozniej ogarne zeby to zoptymalizowac
-    }
-    return id;
+        user_id = rand() % 999999 + 100000;
+
+    } while (check_customer(user_id) && check_employe(user_id) && check_admin(user_id));
+
+    return user_id;
 }
 
 int Database::update_user_balance()
@@ -419,7 +425,7 @@ int Database::check_account_aplication(int user_id)
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
-    int result = 0; // Zmienna przechowuj¹ca wynik
+    int result = 0; // Zmienna przechowujÄ…ca wynik
 
     while (res->next())
     {
@@ -439,7 +445,7 @@ void Database::create_account(int type_, int user_id_)
     connect_database();
     try
     {
-        int account_id = generate_account_id();
+        int account_id = this->generate_account_id();
         std::string query = "INSERT INTO accounts (account_id, user_id, balance, account_type) VALUES (?,?,?,?)";
         con->setSchema("bank");
         pstmt = con->prepareStatement(query);
@@ -457,7 +463,6 @@ void Database::create_account(int type_, int user_id_)
     delete con;
     delete pstmt;
 }
-
 
 int Database::generate_account_id()
 {
@@ -530,7 +535,7 @@ void Database::delete_customer(int user_id)
 void Database::create_employe(int user_id, std::string firstname, std::string lastname, std::string email, std::string password)
 {
     connect_database();
-    // Tworzenie w bazie nowego u¿ytkownika
+    // Tworzenie w bazie nowego uÅ¼ytkownika
     std::string query = "INSERT INTO employe (user_id, firstname, lastname,isAdmin, email, password) VALUES (?, ?,?, ?, ?, ?)";
     con->setSchema("bank");
     pstmt = con->prepareStatement(query);

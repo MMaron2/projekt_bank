@@ -25,7 +25,8 @@ void Customer::show_menu()
 		std::cout << "[2] - stan konta\n";
 		std::cout << "[3] - wyswietl dane\n";
 		std::cout << "[4] - wyswietl konta\n";
-		std::cout << "[5] - wyloguj\n";
+		std::cout << "[5] - dodaj konto\n";
+		std::cout << "[6] - wyloguj\n";
 		try
 		{
 			std::cin >> choice;
@@ -50,6 +51,9 @@ void Customer::show_menu()
 				show_accounts();
 				break;
 			case 5:
+				add_new_account();
+				break;
+			case 6:
 				return;
 			default:
 				break;
@@ -141,5 +145,47 @@ void Customer::transfers()
 	//TODO sprawdzenie czy kwota nie jest wieksza od posiadanego salda
 	Database database;
 	database.transfer_to_normalaccount(acc_id, amount, used_account->account_id);
+}
+
+void Customer::add_new_account()
+{
+	int choice = 0;
+	Database database;
+	while (choice != 3)
+	{
+		std::cout << "Wybierz konto jakie chcesz utworzyc\n";
+		std::cout << "[1] - Konsumenckie\n";
+		std::cout << "[2] - Oszczêdnoœciowe\n";
+		std::cout << "[3] - Anuluj\n";
+		std::cout << "Prosze wybraæ numer: ";
+		std::cin >> choice;
+
+		while (!std::cin)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			continue;
+		}
+
+		switch (choice)
+		{
+			case 1:
+				database.create_account(0, this->user_id);
+				return;
+			case 2:
+				database.create_account(1, this->user_id);
+				return;
+			case 3:
+				return;
+			default:
+				break;
+		}
+	}
+
+
+	
+
+
+
 }
 

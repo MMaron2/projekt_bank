@@ -20,5 +20,6 @@ public:
 	void show_accounts();
 	void change_account();
 	void transfers();
+	void add_new_account();
 };
 

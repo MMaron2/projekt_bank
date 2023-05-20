@@ -1,6 +1,7 @@
 ﻿#include <stdio.h>
 #include <cstdlib>
 #include <iostream>
+#include <regex>
 #include "User.h"
 #include "Employee.h"
 #include "Customer.h"
@@ -30,19 +31,20 @@ void Menu(Database *database, User *customer)
 	int choice = 0;
 	while (choice != 3)
 	{
+		system("cls");
 		std::cout << "[1] - logowanie\n";
 		std::cout << "[2] - rejestracja\n";
 		std::cout << "[3] - zakoncz\n";
-	
+		
+		std::cout << "Prosze wybrac numer: ";
 		std::cin >> choice;
-		while (!std::cin)
+		
+		if (!std::cin)
 		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "Prosze wybrac numer: ";
-			std::cin >> choice;
+			continue;
 		}
-		
 		
 
 		switch (choice)
@@ -64,6 +66,7 @@ void Menu(Database *database, User *customer)
 
 void Login(Database *database, User *customer)
 {
+	system("cls");
 	// logujemy sie przez userID
 	int user_ID;
 	std::string password;
@@ -84,6 +87,7 @@ void Login(Database *database, User *customer)
 		if (check !=1)
 		{
 			std::cout << "Poczekaj az administrator zaakaceptuje wniosek\n";
+			system("pause");
 			return;
 		}
 		customer->show_menu();
@@ -108,8 +112,10 @@ void Login(Database *database, User *customer)
 
 void Register(Database *database)
 {
-	int phonenumber;
+	int phonenumber = 0;
 	std::string firstname, lastname, password, email, addres;
+	std::regex email_pattern(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
+	std::regex phone_number_pattern(R"(\d{9})");
 
 	std::cout << "Podaj Imie";
 	std::cin >> firstname;
@@ -120,11 +126,17 @@ void Register(Database *database)
 	std::cout << "Podaj Adres";
 	std::cin >> addres;
 
-	std::cout << "Podaj email";
-	std::cin >> email;
+	while (!std::regex_match(email, email_pattern))
+	{
+		std::cout << "Podaj email";
+		std::cin >> email;
+	}
 
-	std::cout << "Podaj numer telefonu";
-	std::cin >> phonenumber;
+	while (!std::regex_match(std::to_string(phonenumber), phone_number_pattern))
+	{
+		std::cout << "Podaj numer telefonu";
+		std::cin >> phonenumber;
+	}
 
 	std::cout << "Podaj haslo";
 	std::cin >> password;
@@ -138,6 +150,7 @@ void Register(Database *database)
 	system("cls");
 	std::cout << "Przeslano wniosek o zalozenie konta, prosimy poczekac na jego akceptacje \n";
 	std::cout << "Pin do logowania: " << user_id << std::endl;
+	system("pause");
 	// pomysle pozniej nad lepszym sposobem przejscia do menu, odwolanie do funkcji main jest niedozwolone z programu (edit juz ogarniete)
 }
 
