@@ -55,11 +55,11 @@ int Database::check_employe(int user_id)
     res = stmt->executeQuery(query);
 
     int result = 0;
-
     if (res->next())
     {
         // Znaleziono obiekt
         result = 1;
+       
     }
     else
     {
@@ -599,3 +599,68 @@ void Database::transfer_to_normalaccount(int account_id, double amount, int from
     pstmt->setInt(2, from_account_id);
     pstmt->execute();
 }
+
+std::string Database::get_user_password(int user_id) {
+    connect_database();
+    std::string password;
+  
+
+    std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+    while (res->next())
+    {
+        password = res->getString(6);
+
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
+        return password;
+    }
+   
+}
+
+std::string Database::get_employe_password(int user_id) {
+    connect_database();
+    std::string password;
+
+
+    std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+    while (res->next())
+    {
+        password = res->getString(6);
+
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
+        return password;
+    }
+
+}
+
+std::string Database::get_admin_password(int user_id) {
+    connect_database();
+    std::string password;
+
+
+    std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
+    con->setSchema("bank");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+    while (res->next())
+    {
+        password = res->getString(6);
+
+        delete this->res;
+        delete this->stmt;
+        delete this->con;
+        return password;
+    }
+
+}
+
+

@@ -129,11 +129,9 @@ void Customer::transfers()
 {
 	int acc_id;
 	double amount;
-	//TODO mozna by wyswietlic dane konta typu jakie jest saldo
 	std::cout << "Kwota zostanie przelana z aktualnie uzywanego konta\n";
 	std::cout << "Wpisz numer konta do ktorego chcesz wyslac pieniadze\n";
 	std::cout << "Numer konta: "; std::cin >> acc_id;
-	//TODO sprawdzenie czy istnieje takie account
 
 	std::cout << "Wpisz kwote ktora chcesz wyslac\n";
 	std::cin >> amount;
@@ -142,7 +140,6 @@ void Customer::transfers()
 		std::cout << "Brak wystarczaj¹cych srodków\n";
 		return;
 	}
-	//TODO sprawdzenie czy kwota nie jest wieksza od posiadanego salda
 	Database database;
 	database.transfer_to_normalaccount(acc_id, amount, used_account->account_id);
 }

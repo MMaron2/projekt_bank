@@ -1,6 +1,6 @@
 #include "Admin.h"
 #include <iostream>
-
+#include <iomanip>
 #include "Database.h"
 
 Admin::Admin(bool is_admin_, bool is_staff_, int user_id_, std::string first_name_, std::string last_name_, std::string email_, std::string password_, int phone_number_, int is_active_)
@@ -60,12 +60,25 @@ void Admin::users_list()
 	std::vector<int> users_id;
 	users_id = database.get_all_clients();
 
+	
+	const int idColumnWidth = 10;
+	const int firstNameColumnWidth = 20;
+	const int lastNameColumnWidth = 20;
+
+	std::cout << std::left << std::setw(idColumnWidth) << "ID";
+	std::cout << std::left << std::setw(firstNameColumnWidth) << "First Name";
+	std::cout << std::left << std::setw(lastNameColumnWidth) << "Last Name";
+	std::cout << std::endl;
+
 	for (int i = 0; i < users_id.size(); ++i)
 	{
 		std::vector<std::string> users_credential;
 		users_credential = database.get_user_credentials(users_id[i]);
-		std::cout << "ID uzytkownika " << users_id[i] << " " << users_credential[0] << " " << users_credential[1] << std::endl;
 
+		std::cout << std::left << std::setw(idColumnWidth) << users_id[i];
+		std::cout << std::left << std::setw(firstNameColumnWidth) << users_credential[0];
+		std::cout << std::left << std::setw(lastNameColumnWidth) << users_credential[1];
+		std::cout << std::endl;
 	}
 	
 }
@@ -83,7 +96,7 @@ void Admin::delete_customer_account()
 	
 }
 
-//TODO nie wiem czemu ale przenosi do menu po utworzeniu pracownika
+
 void Admin::create_employe_account()
 {
 	system("cls");
@@ -106,7 +119,8 @@ void Admin::create_employe_account()
 	std::string encrypted_password = database.encrypt_password(pas);
 	int user_id = database.generate_user_id();
 	database.create_employe(user_id, fname, lname, e_mail, encrypted_password);
-	std::cout << "Utworzono konto pracownika";
+	std::cout << "Utworzono konto pracownika jego ID " << user_id << std::endl;
+	system("pause");
 
 }
 
@@ -114,15 +128,28 @@ void Admin::employe_list()
 {
 	system("cls");
 	Database database;
-	std::vector<int> users_id;
-	users_id = database.get_all_employe();
+	std::vector<int> employe_ids;
+	employe_ids = database.get_all_employe();
 
-	for (int i = 0; i < users_id.size(); ++i)
+	// Ustalenie szerokoœci kolumn dla lepszego formatowania
+	const int idColumnWidth = 15;
+	const int firstNameColumnWidth = 20;
+	const int lastNameColumnWidth = 20;
+
+	std::cout << std::left << std::setw(idColumnWidth) << "Employee ID";
+	std::cout << std::left << std::setw(firstNameColumnWidth) << "First Name";
+	std::cout << std::left << std::setw(lastNameColumnWidth) << "Last Name";
+	std::cout << std::endl;
+
+	for (int i = 0; i < employe_ids.size(); ++i)
 	{
-		std::vector<std::string> users_credential;
-		users_credential = database.get_employe_credentials(users_id[i]);
-		std::cout << "ID pracownika " << users_id[i] << " " << users_credential[0] << " " << users_credential[1] << std::endl;
+		std::vector<std::string> employe_credentials;
+		employe_credentials = database.get_employe_credentials(employe_ids[i]);
 
+		std::cout << std::left << std::setw(idColumnWidth) << employe_ids[i];
+		std::cout << std::left << std::setw(firstNameColumnWidth) << employe_credentials[0];
+		std::cout << std::left << std::setw(lastNameColumnWidth) << employe_credentials[1];
+		std::cout << std::endl;
 	}
 }
 

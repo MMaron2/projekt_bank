@@ -90,23 +90,57 @@ void Login(Database *database, User *customer)
 			system("pause");
 			return;
 		}
-		customer->show_menu();
-		return;
+
+		//sprawdzenie hasla
+		
+		std::string encrypted_passeword = database->encrypt_password(password);
+		std::string correct_password = database->get_user_password(user_ID);
+		
+		if (encrypted_passeword == correct_password) {
+			customer->show_menu();
+		}
+		else {
+			std::cout << "Nie poprawne haslo lub login\n";
+			system("pause");
+		}
+		
+	
 	}
 	else if(database->check_employe(user_ID))
 	{
 		customer = database->get_employee_data_by_id(user_ID);
-		customer->show_menu();
-		return;
+
+		std::string encrypted_passeword = database->encrypt_password(password);
+		std::string correct_password = database->get_employe_password(user_ID);
+
+		if (encrypted_passeword == correct_password) {
+			customer->show_menu();
+		}
+		else {
+			std::cout << "Nie poprawne haslo lub login\n";
+			system("pause");
+		}
+		
 	}
 	else if(database->check_admin(user_ID))
 	{
 		customer = database->get_admin_data_by_id(user_ID);
-		customer->show_menu();
-		return;
-	}
 
+		std::string encrypted_passeword = database->encrypt_password(password);
+		std::string correct_password = database->get_admin_password(user_ID);
+
+		if (encrypted_passeword == correct_password) {
+			customer->show_menu();
+		}
+		else {
+			std::cout << "Nie poprawne haslo lub login\n";
+			system("pause");
+		}
+		
+	}
+	
 	std::cout << "podano zly login lub haslo" << std::endl;
+	system("pause");
 	
 }
 
@@ -123,8 +157,9 @@ void Register(Database *database)
 	std::cout << "Podaj Naziwsko";
 	std::cin >> lastname;
 
-	std::cout << "Podaj Adres";
-	std::cin >> addres;
+	std::cin.ignore();
+	std::cout << "Podaj Adres MIASTO ULICA NR BLOKU NR MIESZKANIA";
+	std::getline(std::cin, addres);
 
 	while (!std::regex_match(email, email_pattern))
 	{
