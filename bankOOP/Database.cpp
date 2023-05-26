@@ -23,7 +23,7 @@ int Database::check_customer(int user_id)
 {
     connect_database();
     std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -50,7 +50,7 @@ int Database::check_employe(int user_id)
 {
     connect_database();
     std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -77,7 +77,7 @@ int Database::check_admin(int user_id)
 {
     connect_database();
     std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -104,7 +104,7 @@ int Database::check_account_id(int account_id)
 {
     connect_database();
     std::string query = "SELECT * FROM accounts WHERE account_id='" + std::to_string(account_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -140,7 +140,7 @@ User* Database::get_customer_data_by_id(int user_id)
 
 
     std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -176,7 +176,7 @@ User* Database::get_employee_data_by_id(int user_id)
 
 
     std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -209,7 +209,7 @@ User* Database::get_admin_data_by_id(int user_id)
 
 
     std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -235,7 +235,7 @@ void Database::create_user(int user_id, std::string firstname, std::string lastn
 
     // tworzenie w bazie nowego uzytkownika
     std::string query = "INSERT INTO customers (user_id, first_name, last_name,addres, email, password, phone_number, is_accepted) VALUES (?,?, ?, ?, ?, ?, ?, ?)";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     pstmt = con->prepareStatement(query);
     pstmt->setInt(1, user_id);
     pstmt->setString(2, firstname);
@@ -264,7 +264,7 @@ std::vector<Account*> Database::download_data_about_user_account(int user_id)
     connect_database();
 
     std::string query = "SELECT account_id, balance, account_type FROM accounts WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -345,7 +345,7 @@ std::vector<int> Database::get_applications()
 
     std::vector<int> users_id;
     std::string query = "SELECT user_id FROM customers WHERE is_accepted = 0";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -377,7 +377,7 @@ std::vector<std::string> Database::get_user_credentials(int user_id)
 
 
     std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -409,7 +409,7 @@ void Database::accept_application(int user_id)
 
     std::string query = "UPDATE customers SET is_accepted = 1 WHERE  user_id='" + std::to_string(user_id) + "'";
 
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     pstmt = con->prepareStatement(query);
     pstmt->executeUpdate();
 
@@ -421,7 +421,7 @@ int Database::check_account_aplication(int user_id)
 {
     connect_database();
     std::string query = "SELECT is_accepted FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -447,7 +447,7 @@ void Database::create_account(int type_, int user_id_)
     {
         int account_id = this->generate_account_id();
         std::string query = "INSERT INTO accounts (account_id, user_id, balance, account_type) VALUES (?,?,?,?)";
-        con->setSchema("bank");
+        con->setSchema("bankoop");
         pstmt = con->prepareStatement(query);
         pstmt->setInt(1, account_id);
         pstmt->setInt(2, user_id_);
@@ -478,7 +478,7 @@ std::vector<int> Database::get_all_clients()
     std::vector<int> users_id;
     std::string query = "SELECT user_id FROM customers";
 
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -496,7 +496,7 @@ std::vector<int> Database::get_all_employe()
     std::vector<int> users_id;
     std::string query = "SELECT user_id FROM employe";
 
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
 
@@ -518,7 +518,7 @@ void Database::delete_customer(int user_id)
     std::string query = "DELETE FROM customers WHERE user_id = '" + std::to_string(user_id) + "'";
 
     try {
-        con->setSchema("bank");
+        con->setSchema("bankoop");
         stmt = con->createStatement();
         res = stmt->executeQuery(query);
 
@@ -537,7 +537,7 @@ void Database::create_employe(int user_id, std::string firstname, std::string la
     connect_database();
     // Tworzenie w bazie nowego użytkownika
     std::string query = "INSERT INTO employe (user_id, firstname, lastname,isAdmin, email, password) VALUES (?, ?,?, ?, ?, ?)";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     pstmt = con->prepareStatement(query);
     pstmt->setInt(1, user_id);
     pstmt->setString(2, firstname);
@@ -564,7 +564,7 @@ std::vector<std::string> Database::get_employe_credentials(int user_id)
 
 
     std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -587,7 +587,7 @@ std::vector<std::string> Database::get_employe_credentials(int user_id)
 void Database::transfer_to_normalaccount(int account_id, double amount, int from_account_id)
 {
     connect_database();
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     std::string query = "UPDATE accounts SET balance= balance + ? WHERE account_id=?";
     pstmt = con->prepareStatement(query);
 	pstmt->setDouble(1, amount);
@@ -606,7 +606,7 @@ std::string Database::get_user_password(int user_id) {
   
 
     std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -627,7 +627,7 @@ std::string Database::get_employe_password(int user_id) {
 
 
     std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())
@@ -648,7 +648,7 @@ std::string Database::get_admin_password(int user_id) {
 
 
     std::string query = "SELECT * FROM admin WHERE user_id='" + std::to_string(user_id) + "'";
-    con->setSchema("bank");
+    con->setSchema("bankoop");
     stmt = con->createStatement();
     res = stmt->executeQuery(query);
     while (res->next())

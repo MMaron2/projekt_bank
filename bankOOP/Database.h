@@ -17,9 +17,9 @@
 class Database
 {
 private:
-    const std::string server = "tcp://127.0.0.1:3306"; // ip bazy danych
-    const std::string username = "root"; // login
-    const std::string password = ""; //haslo
+    const std::string server = "tcp://db4free.net:3306"; // ip bazy danych
+    const std::string username = "fr3kz1"; // login
+    const std::string password = "12345678"; //haslo
     sql::Driver* driver;
     sql::Connection* con;
     sql::Statement* stmt;

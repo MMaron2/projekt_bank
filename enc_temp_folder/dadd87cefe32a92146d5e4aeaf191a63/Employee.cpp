@@ -61,7 +61,7 @@ void Employee::show_applications()
 
 	users_id = database.get_applications();
 
-	std::cout << "Witaj (nazwa pracownika). Masz " << users_id.size() << " wnioskow do sprawdzenia." << std::endl; //TODO: dodanie cofniecia
+	std::cout << "Witaj (nazwa pracownika). Masz " << users_id.size() << " wnioskow do sprawdzenia. Wpisz [0] zeby sie cofnac" << std::endl; //TODO: dodanie cofniecia
 
 	std::cout << "Lista id wnioskow" << std::endl;
 	for (int i = 0; i < users_id.size(); ++i)
