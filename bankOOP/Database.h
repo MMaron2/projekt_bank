@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
-
-
 #include "Customer.h"
 #include "User.h"
 #include "Account.h"
@@ -14,6 +12,7 @@
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
+
 class Database
 {
 private:

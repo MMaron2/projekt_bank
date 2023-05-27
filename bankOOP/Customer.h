@@ -19,6 +19,7 @@ public:
 	void show_user_data();
 	void show_accounts();
 	void change_account();
+	// dodanie sprawdzenia czy istnieje konto o takim numerze
 	void transfers();
 	void add_new_account();
 };
