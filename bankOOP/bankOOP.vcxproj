@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PublicIncludeDirectories>.\bankOOP\MySQL Server 8.0\bin;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <ExecutablePath>.\MySQL Server 8.0\bin;$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -155,8 +159,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\openssl-vc141-static-x86_64.1.1.0\build\native\openssl-vc141-static-x86_64.targets" Condition="Exists('..\packages\openssl-vc141-static-x86_64.1.1.0\build\native\openssl-vc141-static-x86_64.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\openssl-vc141-static-x86_64.1.1.0\build\native\openssl-vc141-static-x86_64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\openssl-vc141-static-x86_64.1.1.0\build\native\openssl-vc141-static-x86_64.targets'))" />
+  </Target>
 </Project>

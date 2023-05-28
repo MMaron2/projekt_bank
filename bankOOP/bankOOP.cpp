@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <regex>
+#include <openssl/ssl.h>
 #include "User.h"
 #include "Employee.h"
 #include "Customer.h"
