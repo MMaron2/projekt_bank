@@ -680,4 +680,46 @@ void Database::add_transfer_to_database_transfer_history(int from_account_id, in
     delete pstmt;
 }
 
+std::vector<Transfer*> Database::get_user_transfer_history(int account_id)
+{
+    std::vector<Transfer*> transfers;
+    Transfer* transfer;
+    connect_database();
+    int id, from_account_id, to_account_id;
+    double amount;
+    std::string date;
+
+    std::string query = "SELECT * FROM history WHERE account_id_1='" + std::to_string(account_id) + "'" + "OR account_id_2='" + std::to_string(account_id)+"'";
+    con->setSchema("bankoop");
+    stmt = con->createStatement();
+    res = stmt->executeQuery(query);
+    while (res->next())
+    {
+        id = res->getInt(1);
+        from_account_id = res->getInt(2);
+        to_account_id = res->getInt(3);
+        amount = res->getDouble(4);
+        date = res->getString(5);
+
+        transfer = new Transfer(id, from_account_id, to_account_id, amount, date);
+        transfers.push_back(transfer);
+    }
+    con->close();
+    delete this->res;
+    delete this->stmt;
+    delete this->con;
+
+    return transfers;
+
+}
+
+void Database::revaluation_of_the_savings_account(int user_id)
+{
+    connect_database();
+    con->setSchema("bankoop");
+    std::string query = "UPDATE accounts SET balance= ROUND(balance + (balance * 0.10), 2) WHERE user_id ='"+ std::to_string(user_id) + "' AND account_type = 1";
+    pstmt = con->prepareStatement(query);
+    pstmt->execute();
+}
+
 

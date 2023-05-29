@@ -81,6 +81,7 @@ void Login(Database *database, User *customer)
 	//sprawdzanie typu uzytkowania
 	if (database->check_customer(user_ID))
 	{
+		database->revaluation_of_the_savings_account(user_ID);
 		customer = database->get_customer_data_by_id(user_ID);
 		//check if account is accepted
 		int check = database->check_account_aplication(user_ID);

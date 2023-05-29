@@ -2,12 +2,15 @@
 #include <iostream>
 #include "User.h"
 #include "Account.h"
+#include "Transfer.h"
 #include <vector>
 class Customer : public User // dziedziczy publicznie z User
 {
 private:
 	friend class Account;
+	friend class Transfer;
 	std::vector<Account*> user_accounts;
+	std::vector<Transfer*> transfers;
 	Account* used_account;
 public:
 	Customer(int user_id, std::string, std::string, std::string, std::string, int, int);
@@ -20,7 +23,7 @@ public:
 	void show_accounts();
 	void change_account();
 	// dodanie sprawdzenia czy istnieje konto o takim numerze
-	void transfers();
+	void transfer();
 	void add_new_account();
 	void show_transfer_history();
 };

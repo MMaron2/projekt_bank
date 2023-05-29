@@ -7,6 +7,7 @@
 #include "Account.h"
 #include "NormalAccount.h"
 #include "SavingAccount.h"
+#include "Transfer.h"
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
@@ -62,5 +63,7 @@ public:
     std::string get_employe_password(int user_id);
     std::string get_admin_password(int user_id);
     void add_transfer_to_database_transfer_history(int from_account_id, int to_account_id, double amount);
+    std::vector<Transfer*> get_user_transfer_history(int account_id);
+    void revaluation_of_the_savings_account(int user_id);
 };
 
