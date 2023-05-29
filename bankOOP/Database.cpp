@@ -663,4 +663,21 @@ std::string Database::get_admin_password(int user_id) {
 
 }
 
+void Database::add_transfer_to_database_transfer_history(int from_account_id, int to_account_id, double amount)
+{
+    connect_database();
+    // Tworzenie w bazie nowego użytkownika
+    std::string query = "INSERT INTO history (account_id_1, account_id_2, amount) VALUES (?,?,?)";
+    con->setSchema("bankoop");
+    pstmt = con->prepareStatement(query);
+    pstmt->setInt(1, from_account_id);
+    pstmt->setInt(2, to_account_id);
+    pstmt->setDouble(3, amount);
+    pstmt->execute();
+
+    con->close();
+    delete con;
+    delete pstmt;
+}
+
 

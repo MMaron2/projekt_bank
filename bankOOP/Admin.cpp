@@ -14,22 +14,24 @@ void Admin::show_menu()
 
 	while (choice != 6)
 	{
+		system("cls");
 		std::cout << "[1] - Lista pracownikow\n";
 		std::cout << "[2] - Usuwanie kont\n";
 		std::cout << "[3] - Lista uztykownikow\n";
 		std::cout << "[4] - Lista wnioskow o zalozenie konta\n";
 		std::cout << "[5] - Dodanie konta pracownika\n";
 		std::cout << "[6] - Wyloguj\n";
-		try
+
+		std::cout << "Prosze wybrac numer: ";
+		std::cin >> choice;
+
+		if (!std::cin)
 		{
-			std::cin.ignore();
-			std::cin >> choice;
-		}
-		catch (...)
-		{
-			std::cout << "wprowadzono zle dane\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			continue;
 		}
+
 		switch (choice)
 		{
 		case 1:
@@ -80,7 +82,7 @@ void Admin::users_list()
 		std::cout << std::left << std::setw(lastNameColumnWidth) << users_credential[1];
 		std::cout << std::endl;
 	}
-	
+	system("pause");
 }
 
 void Admin::delete_customer_account()
@@ -151,6 +153,7 @@ void Admin::employe_list()
 		std::cout << std::left << std::setw(lastNameColumnWidth) << employe_credentials[1];
 		std::cout << std::endl;
 	}
+	system("pause");
 }
 
 

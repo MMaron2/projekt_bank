@@ -19,23 +19,28 @@ void Customer::show_menu()
 	//tutaj Menu wlasciwe, przelewy itd
 	int choice = 0;
 
-	while (choice != 6)
+	while (choice != 7)
 	{
+		system("cls");
 		std::cout << "[1] - przelewy\n";
 		std::cout << "[2] - stan konta\n";
 		std::cout << "[3] - wyswietl dane\n";
 		std::cout << "[4] - wyswietl konta\n";
 		std::cout << "[5] - dodaj konto\n";
+		std::cout << "[6] - historia przelewow\n";
 		std::cout << "[6] - wyloguj\n";
-		try
+
+		std::cout << "Prosze wybrac numer: ";
+		std::cin >> choice;
+		
+		// sprawdzenie czy uzyktownik wprowadzi³ dane typu int
+		if (!std::cin)
 		{
-			std::cin >> choice;
-		}
-		catch (...)
-		{
-			std::cout << "wprowadzono zle dane\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			continue;
 		}
+		
 		switch (choice)
 		{
 			case 1:
@@ -54,9 +59,9 @@ void Customer::show_menu()
 				add_new_account();
 				break;
 			case 6:
-				return;
-			default:
 				break;
+			default:
+				return;
 		}
 	}
 }
@@ -87,9 +92,11 @@ void Customer::show_accounts()
 			std::cout << "-------------konto----------------\n";
 			account->display_account();
 		}
+		system("pause");
 		return;
 	}
 	std::cout << "brak powiazanych rachunkow bankowych z tym kontem\n";
+	system("pause");
 }
 
 int Customer::show_user_id()
@@ -131,10 +138,28 @@ void Customer::transfers()
 	double amount;
 	std::cout << "Kwota zostanie przelana z aktualnie uzywanego konta\n";
 	std::cout << "Wpisz numer konta do ktorego chcesz wyslac pieniadze\n";
-	std::cout << "Numer konta: "; std::cin >> acc_id;
+	std::cout << "Numer konta: ";
+	std::cin >> acc_id;
+
+	while (!std::cin)
+	{
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "Numer konta: ";
+		std::cin >> acc_id;
+	}
 
 	std::cout << "Wpisz kwote ktora chcesz wyslac\n";
 	std::cin >> amount;
+
+	while (!std::cin)
+	{
+		std::cout << "Wpisz kwote ktora chcesz wyslac\n";
+		std::cin >> amount;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+
 	if (amount > used_account->balance)
 	{
 		std::cout << "Brak wystarczaj¹cych srodków\n";
@@ -142,6 +167,8 @@ void Customer::transfers()
 	}
 	Database database;
 	database.transfer_to_normalaccount(acc_id, amount, used_account->account_id);
+	database.add_transfer_to_database_transfer_history(used_account->account_id, acc_id, amount );
+	used_account->balance -= amount;
 }
 
 void Customer::add_new_account()
@@ -152,15 +179,17 @@ void Customer::add_new_account()
 	{
 		std::cout << "Wybierz konto jakie chcesz utworzyc\n";
 		std::cout << "[1] - Konsumenckie\n";
-		std::cout << "[2] - Oszczêdnoœciowe\n";
+		std::cout << "[2] - Oszczednosciowe\n";
 		std::cout << "[3] - Anuluj\n";
-		std::cout << "Prosze wybraæ numer: ";
+		std::cout << "Prosze wybrac numer: ";
 		std::cin >> choice;
 
 		while (!std::cin)
 		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Prosze wybrac numer: ";
+			std::cin >> choice;
 			continue;
 		}
 
@@ -179,11 +208,11 @@ void Customer::add_new_account()
 				break;
 		}
 	}
+}
 
-
-	
-
-
+void Customer::show_transfer_history()
+{
+	Database database;
 
 }
 

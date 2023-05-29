@@ -61,5 +61,6 @@ public:
     std::string get_user_password(int user_id);
     std::string get_employe_password(int user_id);
     std::string get_admin_password(int user_id);
+    void add_transfer_to_database_transfer_history(int from_account_id, int to_account_id, double amount);
 };
 

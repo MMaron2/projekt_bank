@@ -16,4 +16,5 @@ void SavingAccount::show_balance()
 {
 	std::cout << "Stan konta: ";
 	std::cout << balance << std::endl;
+	system("pause");
 }

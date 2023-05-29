@@ -22,5 +22,6 @@ public:
 	// dodanie sprawdzenia czy istnieje konto o takim numerze
 	void transfers();
 	void add_new_account();
+	void show_transfer_history();
 };
 

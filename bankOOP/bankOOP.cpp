@@ -72,10 +72,10 @@ void Login(Database *database, User *customer)
 	int user_ID;
 	std::string password;
 
-	std::cout << "Podaj login";
+	std::cout << "Podaj login: ";
 	std::cin >> user_ID;
 
-	std::cout << "Podaj haslo";
+	std::cout << "Podaj haslo: ";
 	std::cin >> password;
 
 	//sprawdzanie typu uzytkowania
@@ -99,6 +99,7 @@ void Login(Database *database, User *customer)
 		
 		if (encrypted_passeword == correct_password) {
 			customer->show_menu();
+			return;
 		}
 		else {
 			std::cout << "Nie poprawne haslo lub login\n";
@@ -116,6 +117,7 @@ void Login(Database *database, User *customer)
 
 		if (encrypted_passeword == correct_password) {
 			customer->show_menu();
+			return;
 		}
 		else {
 			std::cout << "Nie poprawne haslo lub login\n";
@@ -132,6 +134,7 @@ void Login(Database *database, User *customer)
 
 		if (encrypted_passeword == correct_password) {
 			customer->show_menu();
+			return;
 		}
 		else {
 			std::cout << "Nie poprawne haslo lub login\n";
@@ -139,10 +142,6 @@ void Login(Database *database, User *customer)
 		}
 		
 	}
-	
-	std::cout << "podano zly login lub haslo" << std::endl;
-	system("pause");
-	
 }
 
 void Register(Database *database)

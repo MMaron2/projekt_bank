@@ -142,6 +142,7 @@
     <ClCompile Include="Employee.cpp" />
     <ClCompile Include="NormalAccount.cpp" />
     <ClCompile Include="SavingAccount.cpp" />
+    <ClCompile Include="Transfer.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Employee.h" />
     <ClInclude Include="NormalAccount.h" />
     <ClInclude Include="SavingAccount.h" />
+    <ClInclude Include="Transfer.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>

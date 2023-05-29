@@ -25,15 +25,17 @@ void Employee::show_menu()
 		std::cout << "[3] - Lista uztykownikow\n";
 	//	std::cout << "[4] - Przelewy do zatwierdzenia\n";
 		std::cout << "[4] - Wyloguj\n";
-		try
+
+		std::cout << "Prosze wybrac numer: ";
+		std::cin >> choice;
+
+		if (!std::cin)
 		{
-			std::cin >> choice;
-		}
-		catch (...)
-		{
-			std::cout << "wprowadzono zle dane\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			continue;
 		}
+
 		switch (choice)
 		{
 		case 1:
@@ -64,7 +66,7 @@ void Employee::show_applications()
 	std::cout << "Witaj (nazwa pracownika). Masz " << users_id.size() << " wnioskow do sprawdzenia." << std::endl; //TODO: dodanie cofniecia
 
 	std::cout << "Lista id wnioskow" << std::endl;
-	for (int i = 0; i < users_id.size(); ++i)
+	for (int i = 0; i < users_id.size(); i++)
 	{
 		std::vector<std::string> users_credential;
 		users_credential = database.get_user_credentials(users_id[i]);
